@@ -27,6 +27,8 @@
 
 %%%% 4. TITLE %%%%
 \title{Fuzzing Methods}
+
+\author{Moritz Rupp}
 %%%% NOTES:
 % - If the title is too long, or includes special macro, please
 %   provide a "running title" as optional argument: \title[Short]{Long}
@@ -35,25 +37,24 @@
 \begin{document}
 
 \maketitle
-
+\author
 
 
 %%% 5. KEYWORDS %%%%
-\keywords{Offensive Security \and Fuzzing \and Brute-Forcing \and It-Security }
+\keywords{Offensive Security \and Fuzzing \and Brute-Forcing \and It-Security \and Testing }
 
 
 %%%% 6. ABSTRACT %%%%
 \begin{abstract}
- This paper examines fuzzing techniques and methods. Starting with explaining the basic concept of Fuzzing. 
- 
+Software testing has become a ever more important security method. Since modern Software becomes increasingly complex it's not possible to rely fully on manuel static testing. Fuzzing is a dynamic automated way of testing and sees growing usage among security proffesionals. This paper examines different apporaches to use this technologys. 
 \end{abstract}
 
+\newpage
 
 %%%% 7. PAPER CONTENT %%%%
 \section{Introduction}
-
-
-
+Development of any kind has always come with bugs, errors and unintentionally behaviour. Software is no exception. Increasingly complex programs and growing technoligy stacks contribute to this problem. On top of that, finished components are often continuously integrated. As a result, it becomes ever more difficult to predict final program behaviour. This yields in risks, particular if an application is processing external data input. If not handled correctly it can pose security vulnerabilitys or data breaches. The bigger a programm gets, more often such unwanted appearances occur. A field in which this is most noticable is web-development. Whereas 10 years ago, most websites were built with the help of one or two technologys, modern web-applications often use several framework with huge amounts of dependencys. This lead to an increasing amount of security bugs. Different approaches in software testing tries to oppose that development. Back when software was relativly simple and free of dependencys, manuel testing was the state of play. This included code reviews and manuel checks for potentiell exploitation. This was time consuming and needed experts for every specific application. Therefore static analyis was quickly adapted. This contains new techniques such as pattern search. When
+software grew even more in complexity, dynamic analyis was implemented.
 \section{Main Result}
 
 

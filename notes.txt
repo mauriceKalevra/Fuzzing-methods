@@ -1,0 +1,3 @@
+Fuzzing:
+Fuzzing tries to find implementation bugs using malformed/semi-malformed data injection in an automated way.
+A Fuzzer is a programm that automatically injects semi random data into a programm and detect bugs.
