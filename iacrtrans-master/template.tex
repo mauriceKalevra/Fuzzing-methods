@@ -2,7 +2,7 @@
 
 
 %%%% 1. DOCUMENTCLASS %%%%
-\documentclass[journal=tosc,submission]{iacrtrans}
+\documentclass[journal=tosc,final]{iacrtrans}
 %%%% NOTES:
 % - Change "journal=tosc" to "journal=tches" if needed
 % - Change "submission" to "final" for final version
@@ -15,7 +15,7 @@
 %%%% 3. AUTHOR, INSTITUTE %%%%
 \author{Moritz Rupp}
 \institute{
-  Hoschule Albstadt-Sigmaringen, Albstadt, Germany, \email{ruppmori@hs-albsig.de}
+  Hochschule Albstadt-Sigmaringen, Albstadt, Germany, \email{ruppmori@hs-albsig.de}
   
 }
 %%%% NOTES:
@@ -48,15 +48,25 @@
 \begin{abstract}
 Software testing has become a ever more important security method. Since modern Software becomes increasingly complex it's not possible to rely fully on manuel static testing. Fuzzing is a dynamic automated way of testing and sees growing usage among security proffesionals. This paper examines different apporaches to use this technologys. 
 \end{abstract}
-
+\tableofcontents
 \newpage
 
 %%%% 7. PAPER CONTENT %%%%
 \section{Introduction}
 Development of any kind has always come with bugs, errors and unintentionally behaviour. Software is no exception. Increasingly complex programs and growing technology stacks contribute to this problem. On top of that, finished components are often continuously integrated. As a result, it becomes ever more difficult to predict final program behaviour. This yields in risks, particular if an application is processing external data input. If not handled correctly it can pose security vulnerabilitys or data breaches. The bigger a programm gets, more often such unwanted appearances occur. A field in which this is most noticable is web-development. Whereas 10 years ago, most websites were built with the help of one or two technologys, modern web-applications often use several framework with huge amounts of dependencys. This lead to an increasing amount of security bugs. Different approaches in software testing tries to oppose that development. Back when software was relativly simple and free of dependencys, manuel testing was the state of play. That included code reviews and manuel checks for potentiell exploitation. This was time consuming and needed experts for every specific application. Therefore static analyis was quickly adapted. This contained new techniques such as pattern search with a control flow graph, data dependency graph and data flow analysis. When software grew even more in complexity, security researchers needed a more scalable approach. Hence dynamic analyis was implemented. This method tries to understand software behaviour by inputing different types of data. Fuzz-testing is the cutting edge of this technique and will be explored in this paper. At first we will examine the basic concept and functionality. Following different methods in Fuzzing will be explored. Finally we will have a conclusion that covers the pros and cons of Fuzz-testing. 
 \section{What is Fuzzing?}
+Fuzzing is as a method for discovering faults in software by providing unexpected input and monitoring for exceptions, all in an automated way.
 \newpage
 \section{Functionality}
+\dots
+\section{Fuzzing Methods}
+\dots
+\subsection{Application Fuzzing}
+\dots
+\subsection{Protocoll Fuzzing}
+\subsection{File format Fuzzing}
+\subsection{Network Fuzzing}
+\section{Conclusion}
 
 
 
