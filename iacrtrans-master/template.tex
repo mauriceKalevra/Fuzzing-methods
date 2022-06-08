@@ -60,9 +60,9 @@ Generally a distinction can be made on how fuzzing is executed on a specific int
 In addition more distinction can be made on how the fuzzing inputs or test cases are generated. There are two approaches. Mutation based Fuzzers alter existing data samples to create new test cases. Generation-Based Fuzzers define new data based on the expected input of the target specification. Both methods have pro and cons and will be covered in more details later on.
 \newpage
 \section{Functionality}
+This section will provide a perspective on the basic concept of Fuzzing. Regardless of the specific implementation, the core process of all fuzzers remains the same. First the target interface has to be identfied. Relevant are all interfaces that allow external data input. This ranges from network sockets, user-input on a website to linux binarys et cetera. Specifally interesting are interfaces that are reachable from unprivilged users. The act of finding those target interfaces highly depends on the tested application and could include things like code reviews or portscanning.
 Fuzzing threats software most of the time from a black box model. 
-
-3 things are needed, Fuzz-engine.
+\newpage
 \section{Fuzzing Methods}
 \dots
 \subsection{Application Fuzzing}
