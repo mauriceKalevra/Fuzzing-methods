@@ -59,14 +59,19 @@ Generally a distinction can be made on how fuzzing is executed on a specific int
 In addition more distinction can be made on how the fuzzing inputs or test cases are generated. There are two approaches. Mutation based Fuzzers alter existing data samples to create new test cases. Generation-Based Fuzzers define new data based on the expected input of the target specification. Both methods have pro and cons and will be covered in more details later on.
 \newpage
 \section{Functionality}
-This section will provide a perspective on the basic concept of Fuzzing. Regardless of the specific implementation, the core process of all fuzzers remains the same. First the target interface has to be identfied. Relevant are all interfaces that allow external data input. This ranges from network sockets, user-input on a website to linux binarys et cetera. Specifally interesting are interfaces that are reachable by unpriviliged users. The act of finding those target interfaces highly depends on the tested application and could include things like code reviews or portscanning. Based on the findings, the fuzzer input can now be generated. This is one main task of the actuall fuzz-engine. 
+This section will provide a perspective on the basic concept of Fuzzing. Regardless of the specific implementation, the core process of all fuzzers remains the same. First the target interface has to be identfied. Relevant are all interfaces that allow external data input. This ranges from network sockets, user-input on a website to linux binarys et cetera. Specifally interesting are interfaces that are reachable by unpriviliged users. The act of finding those target interfaces highly depends on the tested application and could include things like code reviews or portscanning. Based on the findings, the fuzzer input can now be generated. This is one main task of the actuall fuzz-engine. In the most basic case, it will generate pseudo random inputs based of the given seed. The seed could contain anything that makes sense in the context of the expected input of the target system. Mostly strings or intergers. Following the test cases can be passed to the target system. In there 
 \begin{center}
- \includegraphics[scale=0.5]{../fuzzer.png}
+ \includegraphics[scale=0.2]{../fin.png}
+ \end{center}
+\begin{center}
+ Illustration 1: Basic Fuzzing application
 \end{center}
+Furthermore Fuzzing threats software most of the time from a black box model. 
+
 
 \newpage
 \section{Fuzzing Methods}
-\dots
+Enormous classifications exist for fuzzing depending on attack vectors, fuzzing targets, fuzzing method, and so forth. Fuzzing targets for an application include file formats, network protocols, command-line args, environment variables, web applications and many others. In this section we will firstly  further examine the different input types such as mutation and generation based fuzzers. After that we will take a look at the different target
 Fuzzing threats software most of the time from a black box model. 
 
 \subsection{Application Fuzzing}
