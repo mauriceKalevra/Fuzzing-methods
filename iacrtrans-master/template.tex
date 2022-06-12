@@ -82,7 +82,7 @@ The Seed streams valid inputs to the fuzzer that will modifiy these with the hel
 
 \newpage
 \section{Fuzzing Methods}
-Due to the huge landscape of applications, infrastructures and use cases, enourmes classifications exist around fuzzing. In this section we will further examine the different methods used to generate the fuzzing input like mutation and generation based fuzzing. Afterward we will also cover different types of target focused fuzzers such as application or file format fuzzing et cetera. 
+Due to the huge landscape of applications, infrastructures and use cases, enourmes classifications exist around fuzzing. In this section we will, further examine the different methods used to generate the fuzzing input like mutation and generation based fuzzing. Afterward we will also cover different types of target focused fuzzers such as application or file format fuzzing et cetera. 
 \subsection{Mutation based fuzzing}
 As we already know, this method will simply alter already existing data. This can be based of available informations in case the target inputs are known. Otherwise it is first neccecarry to record valid inputs. This can be achieved via proxys that will record communication or interaction patterns. These valid inputs can then be mutated, either in a completly random manner or after fixed patterns. Figure 2 provides a mutation based implementation in pseudo code.
 \begin{center}
@@ -102,7 +102,7 @@ Fuzzer.mutate for i in range(10) -->
 \end{shaded}
 \end{center}
 First the seed is determined. Following a Fuzzer object is applied and the seed passed. Then we call the fuzzer method to mutate the given input. Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
-Most of the generated inputs are invalid urls\dots
+Most of the generated outputs are invalid urls, hence produce no interesting information \dots
 \newpage
 \subsection{Generation based fuzzing}
 Smart Fuzzers, since they generate data from the go\dots
