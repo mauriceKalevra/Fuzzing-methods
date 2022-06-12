@@ -17,6 +17,7 @@
 \usepackage{xcolor} 
 \colorlet{shadecolor}{gray!25}
 \definecolor{mshadecolor}{rgb}{0.7421875,0.7421875,0.7421875}
+\setlength{\OuterFrameSep}{10pt}
 %%%% 3. AUTHOR, INSTITUTE %%%%
 \author{Moritz Rupp}
 \institute{
@@ -65,16 +66,14 @@ Generally a distinction can be made on how fuzzing is executed on a specific int
 In addition more distinction can be made on how the fuzzing inputs or test cases are generated. There are two approaches. Mutation based Fuzzers alter existing data samples to create new test cases. Generation-Based Fuzzers define new data based on the expected input of the target specification. Both methods have pro and cons and will be covered in more details later on.
 \newpage
 \section{Functionality}
-This section will provide a perspective on the basic concept of Fuzzing. Regardless of the specific implementation, the core process of all fuzzers remains the same. First the target interface has to be identfied. Relevant are all interfaces that allow external data input. This ranges from network sockets, user-input on a website to linux binarys et cetera. Specifally interesting are interfaces that are reachable by unpriviliged users. The act of finding those target interfaces highly depends on the tested application and could include things like code reviews or portscanning. Based on the findings, the fuzzer input can now be generated. This is one main task of the actuall fuzz-engine. In the most basic case, it will generate pseudo random inputs based of the given seed. The seed could contain anything that makes sense in the context of the expected data, essentially a snapshoot of valid inputs for the target system. Mostly combinations of strings and intergers. Following the test cases can be passed to the  target system. Depending on the identfied interfaces, different transfer methods are used. This could involve HTTP Requests, tcp sockets or simply files as input parameters for a programm. While the Fuzz-eingine is sending the generated inputs, the target system has to be monitered to track how the testcases effect the system behaviour. Monitering and tracking can be achieved with different approaches. A convinient but not always available case are logging functions of the target system. They can be simply read out during or after the fuzzing process. If the target is lacking such functionalitys it is neccecarry to implement feedback instrumentations. Those are compile time binarys that are inserted into the target code to track and tell the fuzzer which parts of the internal programmflow is effected. This ensures to establish a correlation between test cases and programm behaviour. The Feedback gets send back to the fuzzing-engine and can be reprocessed.
+This section will provide a perspective on the basic concept of Fuzzing. Regardless of the specific implementation, the core process of all fuzzers remains the same. First the target interface has to be identfied. Relevant are all interfaces that allow external data input. This ranges from network sockets, user-input on a website to linux binarys et cetera. Specifally interesting are interfaces that are reachable by unpriviliged users. The act of finding those target interfaces highly depends on the tested application and could include things like code reviews or portscanning. Based on the findings, the fuzzer input can now be generated. This is one main task of the actuall fuzz-engine. In the most basic case, it will generate pseudo random inputs based of the given seed. The seed could contain anything that makes sense in the context of the expected data, essentially a snapshoot of valid inputs for the target system. Mostly combinations of strings and intergers. Following the test cases can be passed to the  target system. Depending on the identfied interfaces, different transfer methods are used. This could involve HTTP Requests, tcp sockets or simply files as input parameters for a programm. While the Fuzz-eingine is sending the generated inputs, the target system has to be monitered to track how the testcases effect the system behaviour. Monitering and tracking can be achieved with different approaches. A convinient but not always available case are logging functions of the target system. They can be simply read out during or after the fuzzing process. If the target is lacking such functionalitys it is neccecarry to implement feedback instrumentations. Those are compile time binarys that are inserted into the target code to track and tell the fuzzer which parts of the internal programmflow is effected and has already been covered. This ensures to establish a correlation between test cases and programm behaviour. The Feedback gets send back to the fuzzing-engine and can be read out or reprocessed.
 \begin{shaded}
 
 \begin{center}
  \includegraphics[scale=0.2]{../final2.png}
- \end{center}
-\begin{center}
 
- Figure 1: Basic Fuzzing application\footnote{source n}
-\end{center}
+\vspace{2mm} Figure 1: Basic Fuzzing application\footnote{source n}
+ \end{center}
 \end{shaded}
 \noindent Figure 1 provides an overview of a basic mutation based fuzzing implementation. The Fuzzer as seen between the Seed and the target system includes a mutation engine and genetic algorithms.\footnote{source 1} The Fuzzing process can now lapse as follows.\\
 The Seed streams valid inputs to the fuzzer that will modifiy these with the help of the mutation engine. Following the mutated inputs gets send to the target system in which feedback instrumentations listen for exceptions, log them and provide feedback to the fuzzer. Based on that genetic algorithms produce further inputs. Once the fuzzing process has endet, it is now possible to analyse and minimize the findings. This includes to determine if a tracked exeption could actually cause a vulnability or even an exploit. Furthermore these assessments are rated. This is done by ranking frameworks like the common vulnability scoring system(CVSS). Finally all relevant informations are summed up, reported and passed to the corresponding responsible. 
@@ -83,9 +82,28 @@ The Seed streams valid inputs to the fuzzer that will modifiy these with the hel
 
 \newpage
 \section{Fuzzing Methods}
-Due to the huge target landscape, enourmes classifications exist around fuzzing. In this section we will further examine the different input types such as mutation and generation based fuzzers.
+Due to the huge landscape of applications, infrastructures and use cases, enourmes classifications exist around fuzzing. In this section we will further examine the different methods used to generate the fuzzing input like mutation and generation based fuzzing. Afterward we will also cover different types of target focused fuzzers such as application or file format fuzzing et cetera. 
 \subsection{Mutation based fuzzing}
-Called dumb fuzzers since they only alter already existing data \dots
+As we already know, this method will simply alter already existing data. This can be based of available informations in case the target inputs are known. Otherwise it is first neccecarry to record valid inputs. This can be achieved via proxys that will record communication or interaction patterns. These valid inputs can then be mutated, either in a completly random manner or after fixed patterns. Figure 2 provides a mutation based implementation in pseudo code.
+\begin{center}
+\begin{shaded}
+\begin{verbatim}
+seed = "https://www.hs-albsig.de/such?tx\_solr[q]=\\"
+Fuzzer = MutationFuzzer(seed=seed)
+Fuzzer.mutate for i in range(10) -->
+"https://wGw.h2-albsig.re/sLh?tx\_soslr[qx=\\"
+"htSpK://wwl.hs-albsisag.de/such?tx\_solr[s]=\\"
+"htSps://oww.hs-albsig.de/such?tx\_solr[q]=\\"
+"https://www.hs-albsig.de/such?tx\_solr[q]=\\"
+"https://www.hs-albsig.de/such?tx\_solr[q]=\\"
+"https://www.hs-albsig.de/such?tx\_solr[q]=\\"
+\end{verbatim}
+\vspace{2mm} Figure 2: Mutated Fuzzing outputs
+\end{shaded}
+\end{center}
+First the seed is determined. Following a Fuzzer object is applied and the seed passed. Then we call the fuzzer method to mutate the given input. Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
+Most of the generated inputs are invalid urls\dots
+\newpage
 \subsection{Generation based fuzzing}
 Smart Fuzzers, since they generate data from the go\dots
 \newpage
