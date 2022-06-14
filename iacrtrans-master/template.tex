@@ -82,15 +82,15 @@ The Seed streams valid inputs to the fuzzer that will modifiy these with the hel
 
 \newpage
 \section{Fuzzing Methods}
-Due to the huge landscape of applications, infrastructures and use cases, enourmes classifications exist around fuzzing. In this section we will, further examine the different methods used to generate the fuzzing input like mutation and generation based fuzzing. Afterward we will also cover different types of target focused fuzzers such as application or file format fuzzing et cetera. 
+Due to the huge landscape of applications, infrastructures and use cases, enourmes classifications exist around fuzzing. In this section we will, further examine the different methods used to generate the fuzzing input, like mutation and generation based fuzzing. Afterward we will also cover different types of target focused fuzzers such as application or file format fuzzing et cetera. 
 \subsection{Mutation based fuzzing}
-As we already know, this method will simply alter already existing data. This can be based of available informations in case the target inputs are known. Otherwise it is first neccecarry to record valid inputs. This can be achieved via proxys that will record communication or interaction patterns. These valid inputs can then be mutated, either in a completly random manner or after fixed patterns. Figure 2 provides a mutation based implementation in pseudo code.
+As we already know, this method will simply alter already existing data. This can be based of available informations in case the target inputs are known. Otherwise it is first neccecarry to record valid inputs. This can be achieved via proxys that will record communication or interaction patterns. These valid inputs can then be mutated, either in a completly random manner or after fixed patterns. Figure 2 provides a mutation based implementation in pseudo code. 
 \begin{center}
 \begin{shaded}
 \begin{verbatim}
 seed = "https://www.hs-albsig.de/such?tx\_solr[q]=\\"
 Fuzzer = MutationFuzzer(seed=seed)
-Fuzzer.mutate for i in range(10) -->
+Fuzzer.mutate for i in alphabet -->
 "https://wGw.h2-albsig.re/sLh?tx\_soslr[qx=\\"
 "htSpK://wwl.hs-albsisag.de/such?tx\_solr[s]=\\"
 "htSps://oww.hs-albsig.de/such?tx\_solr[q]=\\"
@@ -101,8 +101,10 @@ Fuzzer.mutate for i in range(10) -->
 \vspace{2mm} Figure 2: Mutated Fuzzing outputs
 \end{shaded}
 \end{center}
-First the seed is determined. Following a Fuzzer object is applied and the seed passed. Then we call the fuzzer method to mutate the given input. Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
-Most of the generated outputs are invalid urls, hence produce no interesting information \dots
+First the seed is determined. Following a Fuzzer object is applied and the seed passed. Then we call the fuzzer method to mutate the given input without setting up any fixed patterns. Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
+Most of the generated outputs are invalid urls, and will be rejected by the parser of the target system. In fact in this concrette approach we moreover will fuzz the parser than the webserver.
+
+Therefore it is neccecarry to setup grammars that will follow the expected format.
 \newpage
 \subsection{Generation based fuzzing}
 Smart Fuzzers, since they generate data from the go\dots
