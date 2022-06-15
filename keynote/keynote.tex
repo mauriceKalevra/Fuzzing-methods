@@ -22,10 +22,59 @@
 \end{frame}
 \section{Fuzzing background}
 \begin{frame}{Fuzzing background}
-\begin{block}{What is Fuzzing?}
-  'Fuzzing is an automated testing technique that involves flooding system interfaces with unexpected data to trigger unexpected behaviour.'
+\begin{itemize}
+ \item Development produces bugs, errors and unintentionally behaviour
+ \item Gateway for vulnabilities and exploits
+ \item Software testing tries to oppose that
+ \item Many different approaches exist
+\end{itemize}
+\end{frame}
+\subsection{Software testing}
+\begin{frame}{Software testing}
+ \begin{block}{Manuel testing}
+  - Code reviews, manuel search for vulnabilities\\
+  - Time consuming, expensive
+ \end{block}
+\begin{block}{Static analysis}
+- Automatically examine source code bevore the programm is run\\
+- Pattern analysis \\
+- Control flow graph, data flow analysis\\
+- Expensive tooling
 \end{block}
+\begin{block}{Dynamic analysis}
+- Automatically examine a programm while its's been run\\
+- Execute and input data in real-time\\
+- Monitor the system behaviour\\
+- Listen for exceptions
+\end{block}
+\end{frame}
+\subsection{Fuzz-testing}
+\begin{frame}{Fuzz-testing}
+\begin{itemize}
+  \item Fuzz-testing is the cutting edge of dynamic analysis
+ \end{itemize}
+$\Rightarrow$ 'Fuzzing as a method for discovering faults in software by providing unexpected input and monitoring for exceptions'
+\begin{itemize}
+ \item Broadly333 used in penetration testing
+\end{itemize}
 
+
+\end{frame}
+\section{Functionality}
+\begin{frame}{Functionality}
+\begin{itemize}
+ \item Identify target interfaces\\
+ - portscanning, code reviews
+ \item Generate inputs\\
+ - mutation, generation based fuzzing
+ \item Feed these inputs to the target system
+ \item Monitor for exceptions
+\end{itemize}
+\end{frame}
+\begin{frame}
+\begin{center}
+  \includegraphics[scale=0.17]{final2.png}
+\end{center}
 \end{frame}
 
 
