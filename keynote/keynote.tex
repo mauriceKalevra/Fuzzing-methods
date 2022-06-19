@@ -84,11 +84,30 @@
   $\Rightarrow$ No generall solution
   \item Different targets expect different inputs
   \item How do we generate those inputs?\\
+  $\Rightarrow$ Random fuzzing\\
   $\Rightarrow$ Mutation based fuzzing\\
   $\Rightarrow$ Generation based fuzzing
  \end{itemize}
 
 \end{frame}
+\begin{frame}{Random Fuzzing}
+ \begin{itemize}
+ \item Earliest fuzzing approach
+ \item Brute-force approach
+  \item Generate pseudo random values of a given Seed
+  \item Mostly usefull for black box testing\\
+  - Closed source software etc.
+    \item Will generate lots of rejected test-cases
+
+ \end{itemize}
+
+\end{frame}
+\begin{frame}{Random based fuzzer}
+\begin{center}
+ \includegraphics[scale=0.15]{basic2.png}
+ \end{center}
+ \end{frame}
+
 \begin{frame}{Mutation based Fuzzing}
 \begin{itemize}
  \item Generate test-cases based on already existing data\\
@@ -96,18 +115,22 @@
  $\Rightarrow$ Mutate these inputs
  \item Randomly or after fixed patterns
  \item No need for deep protocol knowledge
+ 
 \end{itemize}
 \end{frame}
 \begin{frame}{Mutation based Fuzzer}
 \begin{itemize}
- \item Randomly flip ASCII bytes
+ \item Flip random nummber of bits
 \end{itemize}
  \includegraphics[scale=0.5]{mutatate.png}
 \end{frame}
 \begin{frame}
  \begin{itemize}
-  \item setup fixed grammars\\
-  $\Rightarrow$ https://www.hs-albsig.de/fuzz
+ \item Determine the seed correctly\\
+ $\Rightarrow$ 'suchergebnisse?fuzz'
+  \item Setup fixed grammars\\
+  $\Rightarrow$ http/
+  fuzz
  \end{itemize}
  
 \end{frame}
@@ -116,25 +139,70 @@
   \item Generate inputs from scratch
   \item Based on the specification and format
   \item Protocol knowledge is importand
+  \item Generated inputs are semi-valid
+  \item Will barely generate rejected test-cases
+  \item Have to be developed from scratch for every protocol/application 
+  
  \end{itemize}
 \end{frame}
 \begin{frame}
- http\\
- :\\
- //\\
- www\\
+ \begin{itemize}
+   \item Assemple every part of an input sepperatly
+   \item Assign rules to these indivuall parts
+  \end{itemize}
  
- 
+\end{frame}
+\begin{frame}{Creation rules}
+\begin{table}[]
+\begin{tabular}{lllll}
+s\_static  &  &  set a static value  \\
+s\_string  &  &  fuzz the provides string  \\
+s\_delim  &  &   fuzz delimters  \\
+\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Fuzzing of an http request}
+ \begin{center}
+ \begin{table}[]
+ \begin{tabular}{lllll}
+ s\_static('GET')  &  &  &  \\
+  s\_delim(' ')\\
+ s\_delim('/')\\
+    s\_string('index)\\
+   s\_static('.')  &  \\
+ s\_string('html')\\
+ s\_delim(' ')\\
+ s\_string('HTTP')&  &  & 
+ \end{tabular}
+ \end{table}
+  
+ \end{center}
+
 \end{frame}
 \begin{frame}{Tooling}
- 
+ \begin{itemize}
+  \item Fuzzing is almost always executed with tooling
+  \item Manuel testing only usefull in rare cases
+ \end{itemize}
+
 \end{frame}
+
+
 \begin{frame}{Practical example}
  
 \end{frame}
 \begin{frame}{Conclusion}
+ \begin{itemize}
+  \item Quite complex
+  \item Many findings
+ \end{itemize}
+
+\end{frame}
+\begin{frame}{Quellen}
  
 \end{frame}
+
 
 
 
