@@ -23,8 +23,8 @@
 \section{Fuzzing background}
 \begin{frame}{Fuzzing background}
 \begin{itemize}
- \item Development produces bugs, errors and unintentionally behaviour
- \item Gateway for vulnabilities and exploits
+ \item Development produces bugs, errors and unintentionally behaviour\\
+ $\rightarrow$ Gateway for vulnabilities and exploits
  \item Software testing tries to oppose that
  \item Many different approaches exist
 \end{itemize}
@@ -36,7 +36,7 @@
   - Time consuming, expensive
  \end{block}
 \begin{block}{Static analysis}
-- Automatically examine source code bevore the programm is run\\
+- Automatically examine source code before the programm is run\\
 - Pattern analysis \\
 - Control flow graph, data flow analysis\\
 - Expensive tooling
@@ -52,7 +52,7 @@
   $\Rightarrow$ Fuzz-testing is the cutting edge of dynamic analysis
   
   \begin{itemize}
-   \item Input data in real-time
+   \item Input forget data in real-time
    \item Monitor the system behaviour
    \item Listen for exceptions
    \item Provide feedback
@@ -63,9 +63,9 @@
 \begin{frame}{Functionality}
 \begin{enumerate}
  \item Identify target interfaces\\
- - portscanning, code reviews
+ $\rightarrow$ portscanning, code reviews
  \item Generate inputs\\
- - mutation, generation based fuzzing
+ $\rightarrow$ mutation, generation based fuzzing
  \item Feed these inputs to the target system
  \item Monitor for exceptions
  \item Log exceptions
@@ -77,10 +77,11 @@
   \includegraphics[scale=0.15]{basicfuzz.png}
 \end{center}
 \end{frame}
+\section{Fuzzing Methods}
 \begin{frame}{Fuzzing Methods}
  \begin{itemize}
   \item Huge landscape of applications and infrastructers\\
-  - Web-applications, networks, binarys etc.\\
+  $\rightarrow$ Web-applications, networks, binarys etc.\\
   $\Rightarrow$ No generall solution
   \item Different targets expect different inputs
   \item How do we generate those inputs?\\
@@ -90,13 +91,13 @@
  \end{itemize}
 
 \end{frame}
+\subsection{Random fuzzing}
 \begin{frame}{Random Fuzzing}
  \begin{itemize}
  \item Earliest fuzzing approach
- \item Brute-force approach
-  \item Generate pseudo random values of a given Seed
+  \item Generate pseudo random values of a given seed
   \item Mostly usefull for black box testing\\
-  - Closed source software etc.
+  $\rightarrow$ Closed source projects
     \item Will generate lots of rejected test-cases
 
  \end{itemize}
@@ -107,7 +108,7 @@
  \includegraphics[scale=0.15]{basic2.png}
  \end{center}
  \end{frame}
-
+\subsection{Mutation based fuzzing}
 \begin{frame}{Mutation based Fuzzing}
 \begin{itemize}
  \item Generate test-cases based on already existing data\\
@@ -115,14 +116,13 @@
  $\Rightarrow$ Mutate these inputs
  \item Randomly or after fixed patterns
  \item No need for deep protocol knowledge
+ \item Flip random nummber of bits
+ 
  
 \end{itemize}
 \end{frame}
 \begin{frame}{Mutation based Fuzzer}
-\begin{itemize}
- \item Flip random nummber of bits
-\end{itemize}
- \includegraphics[scale=0.5]{mutatate.png}
+\includegraphics[scale=0.5]{mutatate.png}\footnote{Andreas Zeller}
 \end{frame}
 \begin{frame}
  \begin{itemize}
@@ -134,6 +134,7 @@
  \end{itemize}
  
 \end{frame}
+\subsection{Generation based fuzzing}
 \begin{frame}{Generation based Fuzzing}
  \begin{itemize}
   \item Generate inputs from scratch
@@ -148,22 +149,25 @@
 \begin{frame}
  \begin{itemize}
    \item Assemple every part of an input sepperatly
-   \item Assign rules to these indivuall parts
+   \item Assign rules to these indivual parts
   \end{itemize}
  
 \end{frame}
-\begin{frame}{Creation rules}
+\begin{frame}{Creation rules in Sully}
 \begin{table}[]
 \begin{tabular}{lllll}
 s\_static  &  &  set a static value  \\
-s\_string  &  &  fuzz the provides string  \\
+s\_string  &  &  fuzz the provided string  \\
 s\_delim  &  &   fuzz delimters  \\
 \end{tabular}
 \end{table}
 \end{frame}
 
 \begin{frame}{Fuzzing of an http request}
- \begin{center}
+ $\rightarrow$ GET /index.html HTTP \dots
+
+\begin{center}
+
  \begin{table}[]
  \begin{tabular}{lllll}
  s\_static('GET')  &  &  &  \\
@@ -180,27 +184,47 @@ s\_delim  &  &   fuzz delimters  \\
  \end{center}
 
 \end{frame}
+\section{Tooling}
 \begin{frame}{Tooling}
  \begin{itemize}
   \item Fuzzing is almost always executed with tooling
   \item Manuel testing only usefull in rare cases
+  \item Many different tools exist for different fuzzing methods/targets\\
+  $\Rightarrow$ OSS-Fuzz, Wfuzz, Sully, FuzzDB \dots
+ \end{itemize}
+
+\end{frame}
+\begin{frame}{AFL}
+ $\Rightarrow$ American fuzzing loop
+ \begin{itemize}
+ \item Open-source
+  \item Mutation and generation based Fuzzer
+  \item Widely used across many target systems
+  \item Responsible for lots of relevant findings\\
+  $\rightarrow$ X.Org Server, PHP, OpenSSL, Firefox, bash \dots
  \end{itemize}
 
 \end{frame}
 
+\section{Practical example}
 
 \begin{frame}{Practical example}
  
 \end{frame}
+\section{Conclusion}
 \begin{frame}{Conclusion}
  \begin{itemize}
+ \item Fuzzing effectively locates bugs\\
+ $\rightarrow$ Mostly simple bugs
+ \item Boosts stability and security of systems
   \item Quite complex
-  \item Many findings
  \end{itemize}
 
 \end{frame}
 \begin{frame}{Quellen}
- 
+Li, J., Zhao, B. \& Zhang, C. Fuzzing: a survey. Cybersecur 1, 6 (2018). https://doi.org/10.1186/s42400-018-0002\-y\\
+https://www.ionos.com/digitalguide/websites/web-development/what-is-fuzzing/
+
 \end{frame}
 
 
