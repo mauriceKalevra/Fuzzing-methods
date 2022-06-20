@@ -1,0 +1,11 @@
+\BOOKMARK [2][]{Outline0.1}{Fuzzing background}{}% 1
+\BOOKMARK [3][]{Outline0.1.1.4}{Software testing}{Outline0.1}% 2
+\BOOKMARK [3][]{Outline0.1.2.5}{Fuzz-testing}{Outline0.1}% 3
+\BOOKMARK [2][]{Outline0.2}{Functionality}{}% 4
+\BOOKMARK [2][]{Outline0.3}{Fuzzing Methods}{}% 5
+\BOOKMARK [3][]{Outline0.3.1.9}{Random fuzzing}{Outline0.3}% 6
+\BOOKMARK [3][]{Outline0.3.2.11}{Mutation based fuzzing}{Outline0.3}% 7
+\BOOKMARK [3][]{Outline0.3.3.14}{Generation based fuzzing}{Outline0.3}% 8
+\BOOKMARK [2][]{Outline0.4}{Tooling}{}% 9
+\BOOKMARK [2][]{Outline0.5}{Practical example}{}% 10
+\BOOKMARK [2][]{Outline0.6}{Conclusion}{}% 11
