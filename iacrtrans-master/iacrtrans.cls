@@ -59,12 +59,12 @@
 
 % Common definitions
 \RequirePackage{xkeyval}
-\def\publname{IACR Transactions}
-\def\publnameshort{IACR Transactions}
+\def\publname{Fuzzing Methods}
+\def\publnameshort{FZ }
 \define@choicekey*+{IACR}{journal}[\val\nr]{tosc,tches}{%
     \ifcase\nr\relax
-        \def\publname{IACR Transactions on Symmetric Cryptology}%
-        \def\publnameshort{IACR ToSC}%
+%        \def\publname{IACR Transactions on Symmetric Cryptology}%
+%        \def\publnameshort{IACR ToSC}%
     \or
         \def\publname{IACR Transactions on Cryptographic Hardware and Embedded Systems}%
         \def\publnameshort{IACR TCHES}%

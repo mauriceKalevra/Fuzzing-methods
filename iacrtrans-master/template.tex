@@ -1,6 +1,3 @@
-
-
-
 %%%% 1. DOCUMENTCLASS %%%%
 \documentclass[journal=tosc,final]{iacrtrans}
 %%%% NOTES:
@@ -47,24 +44,28 @@
 
 
 %%% 5. KEYWORDS %%%%
-\keywords{Offensive Security \and Fuzzing \and Brute-Forcing \and It-Security \and Testing }
+\keywords{Offensives Security \and Fuzzing \and Brute-Forcing \and It-Security \and Testing }
 
 
 %%%% 6. ABSTRACT %%%%
 \begin{abstract}
-Modern Software has become increasingly more complex. This is connected with growing nummbers of security bugs and data breaches. Software testing tries to oppose that development. Fuzzing is a dynamic automated way of testing and sees growing usage among security proffesionals. This paper examines different approaches to use this technology. 
+Modern Softwares has become increasingly more complex. This is connected with growing nummbers of security bugs and cyberattacks[1]. Software testing tries to oppose that development. Fuzzing is a dynamic automated way of testing and sees growing usage among security profesionals. It has gained growing attention after several zero day vulnerabilitys have been found with this approach. This paper examines different methods to use this technology. 
 \end{abstract}
 
 %%%% 7. PAPER CONTENT %%%%
 \section{Introduction}
 Development of any kind has always come with bugs, errors and unintentionally behaviour. Software is no exception. Increasingly complex programs and growing technology stacks contribute to this problem. On top of that, finished components are often continuously integrated. As a result, it becomes ever more difficult to predict final program behaviour. This yields in risks, particular if an application is processing external data input. If not handled correctly it can pose security vulnerabilitys or data breaches.
 
-The bigger a programm gets, more often such unwanted appearances occur. A field in which this is most noticable is web-development. Whereas 15 years ago, most websites were built on top of a view technologys, modern web-applications often use several framework with huge amounts of dependencys. This lead to an increasing amount of security bugs. Different approaches in software testing tries to oppose that development.
+The bigger a programm gets, more often such unwanted appearances occur. A field in which this is most noticable is web-development. Whereas 15 years ago, most websites were built on top of a view technologys, modern web-applications often use several framework with huge amounts of dependencys. This lead to an increasing amount of security bugs[2]. Different approaches in software testing tries to oppose that development.
 
-Back when software was relativly simple and free of dependencys, manuel testing was the state of play. That included code reviews and manuel checks for potentiel exploitation. This was time consuming and needed experts for every specific application. Therefore static analyis was quickly adapted. This contained new techniques such as pattern search with a control flow graph, data dependency graph and data flow analysis. When software grew even more in complexity, security researchers needed a more scalable approach. Hence dynamic analyis was implemented. This method tries to understand software behaviour by inputing different types of data. Fuzz-testing is the cutting edge of this technique and will be explored in this paper. At first we will examine the basic concept and functionality. Following different methods in Fuzzing will be explored. Finally we will have a conclusion that covers the pros and cons of Fuzz-testing. 
+Back when software was relativly simple and free of dependencys, manuel testing was the state of play. That included code reviews and manuel checks for potentiel exploitation. This was time consuming and needed experts for every specific application. Therefore static analyis was quickly adapted. This contained new techniques such as pattern search with a control flow graph, data dependency graph and data flow analysis[3]. When software grew even more in complexity, security researchers needed a more scalable approach. Hence dynamic analyis was implemented. This method tries to understand software behaviour by inputing different types of data. 
 
+Fuzz-testing is the cutting edge of this technique and will be explored in this paper. At first we will examine the basic concepts and functionality of the general approach. On top of that different methods in Fuzzing will be explored. That expresses itself in how certain functionalitys of the fuzzing application are executed. This section will be the main focus of the paper. Following we will also cover practical usage by showcasing different tools and a concrete example. 
+
+As a final point we will have a conclusion in which we provide a summary and an assessment of the pros and cons of Fuzz-testing. 
+\newpage
 \section{Fuzzing background}
-Fuzz testing or fuzzing is a method of testing software to detect security holes in applications, operating systems, and networks. It involves flooding their input interfaces with random data, called fuzz, to make them crash or trigger unexpected programm behaviour.\footnote{Source 1} Furthermore the computation results are monitered and reported, all in an automated way. Fuzzing has become increasingly more relevant among security researchers and is used by almost all big tech companys for penetration testing. Tech leaders find more than 80\% of their bugs by using different fuzzing Methods. Google for example  has found over 19 thousend errors in their browser projekt chrome.\footnote{Source 3} Microsoft used dynamic analysis to test one of their flagship projects 'office' and found nearly 2000 bugs using the fuzzing tool afl. Also open source project such linux use Fuzzing methods on a great scale. Many security bugs within the Linux Kernel have been found this way.\\
+Fuzz testing or fuzzing is a method of testing software to detect security holes in applications, operating systems, and networks. It involves flooding their input interfaces with random data, called fuzz, to make them crash or trigger unexpected programm behaviour. Furthermore the computation results are monitered and reported, all in an automated way. Fuzzing has become increasingly more relevant among security researchers and is used by almost all big tech companys for penetration testing. Tech leaders find more than 80 of their bugs by using different fuzzing Methods. Google for example  has found over 19 thousend errors in their browser projekt chrome. Microsoft used dynamic analysis to test one of their flagship projects 'office' and found nearly 2000 bugs using the fuzzing tool afl. Also open source project such linux use Fuzzing methods on a great scale. Many security bugs within the Linux Kernel have been found this way.\\
 Generally a distinction can be made on how fuzzing is executed on a specific interface. Depending on the application or infrastructure of the target system, different types of fuzzers can be used. Application Fuzzing will approach a system by testing functionalitys such as buttons, input fields or command line parameters. File format fuzzing tries to generate corrupted files and feed them to the corresponding target for processing. Other types of Fuzzing targets include Protocol Fuzzing and Network fuzzing.\\
 In addition more distinction can be made on how the fuzzing inputs or test cases are generated. There are two approaches. Mutation based Fuzzers alter existing data samples to create new test cases. Generation-Based Fuzzers define new data based on the expected input of the target specification. Both methods have pro and cons and will be covered in more details later on.
 
@@ -76,10 +77,10 @@ This section will provide a perspective on the basic concept of Fuzzing. Regardl
 \begin{center}
  \includegraphics[scale=0.2]{../final2.png}
 
-\vspace{2mm} Figure 1: Basic Fuzzing application\footnote{source n}
+\vspace{2mm} Figure 1: Basic Fuzzing application
  \end{center}
 \end{shaded}
-\noindent Figure 1 provides an overview of a basic mutation based fuzzing implementation. The Fuzzer as seen between the Seed and the target system includes a mutation engine and genetic algorithms.\footnote{source 1} The Fuzzing process can now lapse as follows.\\
+\noindent Figure 1 provides an overview of a basic mutation based fuzzing implementation. The Fuzzer as seen between the Seed and the target system includes a mutation engine and genetic algorithms. The Fuzzing process can now lapse as follows.\\
 The Seed streams valid inputs to the fuzzer that will modifiy these with the help of the mutation engine. Following the mutated inputs gets send to the target system in which feedback instrumentations listen for exceptions, log them and provide feedback to the fuzzer. Based on that genetic algorithms produce further inputs. Once the fuzzing process has endet, it is now possible to analyse and minimize the findings. This includes to determine if a tracked exeption could actually cause a vulnability or even an exploit. Furthermore these assessments are rated. This is done by ranking frameworks like the common vulnability scoring system(CVSS). Finally all relevant informations are summed up, reported and passed to the corresponding responsible. 
 
 
@@ -87,6 +88,10 @@ The Seed streams valid inputs to the fuzzer that will modifiy these with the hel
 Due to the huge landscape of applications, infrastructures and use cases, enourmes classifications exist around fuzzing. In this section we will, further examine the different methods used to generate the fuzzing input, like mutation and generation based fuzzing. Afterward we will also cover different types of target focused fuzzers such as application or file format fuzzing et cetera. 
 \subsection{Mutation based fuzzing}
 As we already know, this method will simply alter already existing data. This can be based of available informations in case the target inputs are known. Otherwise it is first neccecarry to record valid inputs. This can be achieved via proxys that will record communication or interaction patterns. These valid inputs can then be mutated, either in a completly random manner or after fixed patterns. Figure 2 provides a mutation based implementation in pseudo code. 
+
+First the seed is determined. Following a Fuzzer object is applied and the seed passed. Then we call the fuzzer method to mutate the given input without setting up any fixed patterns. Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
+Most of the generated outputs are invalid urls, and will be rejected by the parser of the target system. In fact in this concrette approach we moreover will fuzz the parser than the webserver.
+\newpage
 \begin{center}
 \begin{shaded}
 \begin{verbatim}
@@ -98,15 +103,11 @@ Fuzzer.mutate for i in alphabet -->
 "htSps://oww.hs-albsig.de/such?tx\_solr[q]=\\"
 "https://www.hs-albsig.de/such?tx\_solr[q]=\\"
 "https://www.hs-albsig.de/such?tx\_solr[q]=\\"
-"https://www.hs-albsig.de/such?tx\_solr[q]=\\"
 \end{verbatim}
 \vspace{2mm} Figure 2: Mutated Fuzzing outputs
 \end{shaded}
 \end{center}
-First the seed is determined. Following a Fuzzer object is applied and the seed passed. Then we call the fuzzer method to mutate the given input without setting up any fixed patterns. Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
-Most of the generated outputs are invalid urls, and will be rejected by the parser of the target system. In fact in this concrette approach we moreover will fuzz the parser than the webserver.
-
-Therefore it is neccecarry to setup grammars that will follow the expected format.
+Therefore it is neccecarry to be very patience about which part of the seed is beeing fuzzed. Another approach would be to setup grammars that will follow the expected format.
 \newpage
 \subsection{Generation based fuzzing}
 Smart Fuzzers, since they generate data from the go\dots
@@ -118,19 +119,18 @@ Smart Fuzzers, since they generate data from the go\dots
 \subsection{Network Fuzzing}
 \newpage
 \section{Tooling}
-Hundrets of fuzzing tools are available. Like wfzuu, afl and zfuzz etc..
+Hundrets of fuzzing tools are availabls. Like wfzuu, afl and zfuzz etc..
 \subsection{Practical example}
 We will fuzz a webserver with afl\dots
 \section{Conclusion}
 
 
 
-%%%% 8. BILBIOGRAPHY %%%%
-\bibliographystyle{alpha}
-\bibliography{abbrev3,crypto,biblio}
-%%%% NOTES
-% - Download abbrev3.bib and crypto.bib from https://cryptobib.di.ens.fr/
-% - Use bilbio.bib for additional references not in the cryptobib database.
-%   If possible, take them from DBLP.
 
+\section{References}
+[1] \textbf{Aimee O'Driscoll}(2022), 25+ cyber security vulnerability statistics and facts of 2022, https://www.comparitech.com/blog/information-security/cybersecurity-vulnerability-statistics/\\
+\\
+\noindent[2] \textbf{Emilio Granado Franco}(2022),  Global Risks Report 2022, Chapter 3. Digital Dependencies and Cyber Vulnerabilities\\
+
+\noindent[3] \textbf{Chess, B. and McGraw, G.}(2004), Static analysis for security, IEEE Security \& Privacy, 10.1109/MSP.2004.111
 \end{document}
