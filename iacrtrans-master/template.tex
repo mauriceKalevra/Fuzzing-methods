@@ -131,12 +131,24 @@ Fuzzer.mutate for i in alphabet -->
 \vspace{2mm} Figure 2: Mutated Fuzzing outputs
 \end{shaded}
 \end{center}
-First the seed is determined. Following a Fuzzer object is applied and the seed passed. Then we call the fuzzer method to mutate the given input without setting up any fixed patterns. This results in several mutated urls. The inner procedure is simple.
+First the seed is determined. Following a Fuzzer object is applied and the seed is passed. Then we call the fuzzer method to mutate the given inputs without setting up any fixed patterns. This results in several mutated urls. The inner procedure is simple.
 
 The fuzzer engine will take a random index in the range of the string length. The index value will then be flipped.  Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
-Most of the generated outputs are invalid urls, and will be rejected by the parser of the target system. In fact most of the generated urls will never reach our inital target, the webserver. In this concrette example we moreover will fuzz the url-parser than the http-server.
+Most of the generated outputs are invalid urls, and will be rejected by the parser of the target system. In fact several of the generated urls will never reach our inital target, the webserver. This implementation will moreover fuzz the url-parser than the http-server.
+Therefore it is neccecarry to be very patience about which part of valid inputs should get passed to the seed to be fuzzed. 
 
-Therefore it is neccecarry to be very patience about which part of valid inputs are passed to the seed to be fuzzed. Another approach would be to setup grammars that will follow the expected format.
+In this concrette example the right approach would be to setup a  static corpus and only mutate the string of the file path and parameters. 
+These can then be combined and send out.
+\begin{center}
+\begin{shaded}
+\begin{verbatim}
+static = https://www.hs-albsig.de/  seed = "suche/?tx\_solr[q]=\\"
+\end{verbatim}
+\vspace{2mm} Figure 3: Mutated Fuzzing outputs
+\end{shaded}
+\end{center}
+Even more precision can be achived by providing multiple seeds that represent different parts of the valid format. A simple function can then receive mutation of those seeds and concatenate them within the expected format.
+
 \newpage
 \subsection{Generation based fuzzing}
 Smart Fuzzers, since they generate data from the go\dots
