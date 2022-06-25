@@ -7,6 +7,8 @@
 
 
 %%%% 2. PACKAGES %%%%
+\usepackage[left, pagewise, edtable]{lineno}
+
 \usepackage{graphicx}
 \usepackage{framed} 
 \usepackage{xcolor}
@@ -68,7 +70,9 @@ As a final point we will have a conclusion in which we provide a summary and an 
 \section{Fuzzing background}
 Fuzz testing or fuzzing is a method of testing software to detect security holes in applications, operating systems, and networks. It involves flooding their input interfaces with random data, called fuzz, to make them crash or trigger unexpected programm behaviour. Furthermore the computation results are monitered and reported, all in an automated way. Fuzzing has become increasingly more relevant among security researchers and is used by almost all big tech companys for penetration testing[4]. Tech leaders find more than 80 of their bugs by using different fuzzing Methods[5]. Google for example  has found over 15 thousend errors in their browser projekt chrome[6]. Microsoft used dynamic analysis to test one of their flagship projects 'office' and found nearly 2000 bugs using the fuzzing tool afl[7]. Also open source project such linux use Fuzzing methods on a great scale. Many security bugs within the Linux Kernel have been found this way[8].\\
 Generally a distinction can be made on how fuzzing is executed on a specific interface. Depending on the application or infrastructure of the target system, different types of fuzzers can be used. Application Fuzzing will approach a system by testing functionalitys such as buttons, input fields or command line parameters. File format fuzzing tries to generate corrupted files and feed them to the corresponding target for processing. Other types of fuzzing targets include Protocol Fuzzing and Network fuzzing.\\
-In addition more distinction can be made on how the fuzzing inputs or test cases are generated. There are two approaches. Mutation based Fuzzers alter existing data samples to create new test cases. Generation-Based Fuzzers define new data based on the expected input of the target specification. Both methods have pro and cons and will be covered in more detail later on.
+In addition more distinction can be made on how the fuzzing inputs or test cases are generated. There are two approaches. Mutation based Fuzzers alter existing data samples to create new test cases.
+Generation based fuzzers will create test cases from scratch based on protocoll knowledge. 
+Both methods have pro and cons and will be covered in more detail later on.
 
 \section{Functionality}
 This section will provide a perspective on the basic concept of Fuzzing.
@@ -104,7 +108,7 @@ In this section we will further examine the different methods used to generate t
 \subsection{Random fuzzing}
 When fuzzing was invented in 1988 by Professor Barton P. Miller at the University of wisconsin, random fuzzing was the very first approach[12].
 
-When Miller held a lecture remotely via a telephone connection, a thunderstorm caused electrical disturbances in the telephoneline. This resulted in garbled transmissions. Based on these random occuranced Miller stated that bad input  could be used to crash other systems. He and his students applied this observation on different unix utilites their where using at that time. They remarked that  more than 30\% of the tested programms where vulnerable to bad input[13]. 
+When Miller held a lecture remotely via a telephone connection, a thunderstorm caused electrical disturbances in the telephoneline. This resulted in garbled transmissions. Based on these random occuranced, Miller stated that bad input  could be used to crash other systems. He and his students applied this observation on different unix utilites their where using at that time. They remarked that  more than 30\% of the tested programms where vulnerable to bad input[13]. 
 
 Initally they simply manuelly passed pseudo random inputs to these programms. Later on miller made a programming assigment to his students, that stated to automate this task. The very first fuzzer was born. The basic principle still holds up today. 
 
@@ -118,7 +122,9 @@ As we already know, this method will simply alter already existing data. This ca
 
 \begin{center}
 \begin{shaded}
+\begin{internallinenumbers}
 \begin{verbatim}
+
 seed = "https://www.hs-albsig.de/such?tx\_solr[q]=\\"
 Fuzzer = MutationFuzzer(seed=seed)
 Fuzzer.mutate for i in alphabet -->
@@ -128,12 +134,13 @@ Fuzzer.mutate for i in alphabet -->
 "h?tpIl//wsw.hs-albswgqde/such?tx\_solr[q]=q\"
 "https://www.hs-albsig.de/such?tx\_solr[q]=\\"
 \end{verbatim}
+\end{internallinenumbers}
 \vspace{2mm} Figure 2: Mutated Fuzzing outputs
 \end{shaded}
 \end{center}
-First the seed is determined. Following a Fuzzer object is applied and the seed is passed. Then we call the fuzzer method to mutate the given inputs without setting up any fixed patterns. This results in several mutated urls. The inner procedure is simple.
+At first, in line 1 the seed is determined. Following a Fuzzer object is applied and the seed is passed(see line 2). Then we call the fuzzer method to mutate the given inputs without setting up any fixed patterns. This results in several mutated urls. The inner procedure is simple.
 
-The fuzzer engine will take a random index in the range of the string length. The index value will then be flipped.  Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
+The fuzzer engine will take a random index of the seed in the range of the string length. The index value will then be flipped.  Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
 Most of the generated outputs are invalid urls, and will be rejected by the parser of the target system. In fact several of the generated urls will never reach our inital target, the webserver. This implementation will moreover fuzz the url-parser than the http-server.
 Therefore it is neccecarry to be very patience about which part of valid inputs should get passed to the seed to be fuzzed. 
 
@@ -151,8 +158,7 @@ Even more precision can be achived by providing multiple seeds that represent di
 
 \newpage
 \subsection{Generation based fuzzing}
-Smart Fuzzers, since they generate data from the go\dots
-\newpage
+In Generation-Based fuzzing new data is defined based on the expected input of the target specification. Hence knowledge of the system under test is mandatory. It is neccecarry to have a well understanding of the input format, since test cases are generated completly from scratch.  
 \subsection{Application Fuzzing}
 
 \subsection{Protocoll Fuzzing}
