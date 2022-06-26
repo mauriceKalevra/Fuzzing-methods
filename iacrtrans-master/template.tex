@@ -7,7 +7,7 @@
 
 
 %%%% 2. PACKAGES %%%%
-\usepackage[left, pagewise, edtable]{lineno}
+\usepackage[pagewise]{lineno}
 
 \usepackage{graphicx}
 \usepackage{framed} 
@@ -159,10 +159,45 @@ Even more precision can be achived by providing multiple seeds that represent di
 \newpage
 \subsection{Generation based fuzzing}
 In Generation-Based fuzzing new data is defined based on the expected input of the target specification. Hence knowledge of the system under test is mandatory. It is neccecarry to have a well understanding of the input format, since test cases are generated completly from scratch. It's also importand since we want to ensure to pass the parser of the target system, so our test cases are actually reaching the application.
+Generation based fuzzers achieve this with the help of formal languages. Those are essentially a set of strings of a predefined alphabet. With grammars it is possible to form different expressions based of that. A grammar describes how to form valid strings from the language's alphabet. This is achieved by assigning rules to individual parts of it.
+In most cases so called context free grammars are used. With them it is possible to form lots of relevant languages. They are particularly great for expressing syntactical structures. This can range from actuall programming languages to formats such as JSON or standardized naming conventions like urls. Figure 4 provides a context free grammar to generate valid urls.
 
-Generation based fuzzers achieve this with the help of formal languages. Those are essentially a set of strings of a predefined alphabet. With grammars it is possible to form different expressions of that language. A grammar describes how to form these strings from the language's alphabet. With that, one can express a wide range of the properties of an input format. Grammars are particularly great for expressing syntactical structures. In most cases so called context free grammars are used. With them it is possible to form lots of relevant languages. This can range from actuall programming languages to formats such as JSON or standadized naming conventions like urls.
+\begin{center}
+\begin{shaded}
+\begin{internallinenumbers}
+\begin{verbatim}
+"<start>":
+     ["<url>"],
+"<url>":
+     ["<scheme>://<authority><path><query>"],
+"<scheme>":
+     ["http", "https", "ftp", "ftps"],
+"<authority>":
+     ["<host>", "<host>:<port>", "<userinfo>@<host>"]
+"<host>":  
+     ["hs-albsig.de", "www.albstadt.de", "github.com"],
+"<port>":
+     ["80", "443", "<nat>"],
+"<nat>":
+     ["<digit>", "<digit><digit>"],
+"<digit>":
+     ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+"<userinfo>":  
+     ["user:password"],
+"<path>":  
+     ["", "/", "/<id>"],
+"<id>":  
+     ["abc", "def", "x<digit><digit>"],
+"<query>":
+     ["", "?<params>"],
+\end{verbatim}
+\end{internallinenumbers}
+\vspace{2mm} Figure 4: URL Grammar
+\end{shaded}
+\end{center}
+A grammar always begins with a start-symbol, followed by a set of expansion rules, which indicates how symbols can be expanded or built.
+\newpage
 \subsection{Application Fuzzing}
-
 \subsection{Protocoll Fuzzing}
 \subsection{File format Fuzzing}
 \subsection{Network Fuzzing}
