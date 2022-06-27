@@ -8,7 +8,7 @@
 
 %%%% 2. PACKAGES %%%%
 \usepackage[pagewise]{lineno}
-
+\usepackage{blt}
 \usepackage{graphicx}
 \usepackage{framed} 
 \usepackage{xcolor}
@@ -91,15 +91,16 @@ More features are feedback instrumentations. Those are compile time binarys that
 The Seed streams valid inputs to the fuzzer that will modifiy these with the help of the mutation engine. Following the mutated inputs gets send to the target system in which feedback instrumentations listen for exceptions, log them and provide feedback to the fuzzer. Based on that genetic algorithms produce further inputs.
 
 Once the fuzzing process has endet, it is now possible to analyse and minimize the findings. This includes to determine if a tracked exeption could actually cause a vulnability or even an exploit. Furthermore these assessments are rated. This is done by ranking frameworks like the common vulnability scoring system(CVSS)[11]. Finally all relevant informations are summed up, reported and passed to the corresponding responsible. 
-\begin{shaded}
+\begin{figure}
+\caption{Basic Fuzzing application}
+ \begin{shaded}
 
 \begin{center}
 \includegraphics[scale=0.2]{../final2.png}
-
-\vspace{2mm} Figure 1: Basic Fuzzing application
 \end{center}
 \end{shaded}
 
+\end{figure}
 
 \section{Fuzzing Methods}
 Due to the huge landscape of applications, infrastructures and use cases, enourmes classifications exist around fuzzing. 
@@ -120,49 +121,48 @@ Another usecase are to fuzz strings of programm parameters. They barely follow a
 \subsection{Mutation based fuzzing}
 As we already know, this method will simply alter already existing data. This can be based of available information in case the target inputs are known. Otherwise it is first neccecarry to record valid inputs. This can be achieved via proxys that will record communication or interaction patterns. These valid inputs can then be mutated, either in a completly random manner or after fixed patterns. Figure 2 provides a mutation based implementation in pseudo code. 
 
-\begin{center}
-\begin{shaded}
-\begin{internallinenumbers}
-\begin{verbatim}
+\begin{figure}[h]
+\caption{Mutated fuzzing outputs}
+ \begin{lstlisting}[language=python,style=code]
+	seed = "https://www.hs-albsig.de/such?tx\_solr[q]"
+	Fuzzer = MutationFuzzer(seed=seed)
+	Fuzzer.mutate for i in range(5) -->
+	https://wGw.h2-albsig.re/sLh?tx\_soslr[qx=?]
+	htSpK://wwl.hs-albsisag.de/such?tx\_solr[s]a
+	htSps://o?w.h_s-lbsig.de/such?tx\_solr[q]=\p
+	h?tpIl//wsw.hs-albswgqde/such?tx\_solr[q]=q\
+	https://www.hs-albsig.de/such?tx\_solr[q]=\\
+\end{lstlisting}
 
-seed = "https://www.hs-albsig.de/such?tx\_solr[q]=\\"
-Fuzzer = MutationFuzzer(seed=seed)
-Fuzzer.mutate for i in alphabet -->
-"https://wGw.h2-albsig.re/sLh?tx\_soslr[qx=?\"
-"htSpK://wwl.hs-albsisag.de/such?tx\_solr[s]a\\"
-"htSps://o?w.h_s-lbsig.de/such?tx\_solr[q]=\p"
-"h?tpIl//wsw.hs-albswgqde/such?tx\_solr[q]=q\"
-"https://www.hs-albsig.de/such?tx\_solr[q]=\\"
-\end{verbatim}
-\end{internallinenumbers}
-\vspace{2mm} Figure 2: Mutated Fuzzing outputs
-\end{shaded}
-\end{center}
-At first, in line 1 the seed is determined. Following a Fuzzer object is applied and the seed is passed(see line 2). Then we call the fuzzer method to mutate the given inputs without setting up any fixed patterns. This results in several mutated urls. The inner procedure is simple.
-
-The fuzzer engine will take a random index of the seed in the range of the string length. The index value will then be flipped.  Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
+\end{figure}
+At first, in line 1 the seed is determined. Following a Fuzzer object is applied and the seed is passed(see line 2). Then we call the fuzzer method to mutate the given inputs without setting up any fixed patterns. This results in several mutated urls. The inner procedure is simple. The fuzzer engine will take a random index of the seed in the range of the string length. The index value will then be flipped.  Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
 Most of the generated outputs are invalid urls, and will be rejected by the parser of the target system. In fact several of the generated urls will never reach our inital target, the webserver. This implementation will moreover fuzz the url-parser than the http-server.
 Therefore it is neccecarry to be very patience about which part of valid inputs should get passed to the seed to be fuzzed. 
 
 In this concrette example the right approach would be to setup a  static corpus and only mutate the string of the file path and parameters. 
 These can then be combined and send out.
-\begin{center}
-\begin{shaded}
-\begin{verbatim}
-static = https://www.hs-albsig.de/  seed = "suche/?tx\_solr[q]=\\"
-\end{verbatim}
-\vspace{2mm} Figure 3: Mutated Fuzzing outputs
-\end{shaded}
-\end{center}
+
+
+\begin{figure}[h]
+ \caption{Right approach}
+ \begin{lstlisting}[style=code]
+	static = https://www.hs-albsig.de/  
+	seed = "suche/?tx\_solr[q]=\\"
+ \end{lstlisting}
+\end{figure}
+
+
 Even more precision can be achived by providing multiple seeds that represent different parts of the valid format. A simple function can then receive mutation of those seeds and concatenate them within the expected format.
 
+Still mutation based fuzzers lack in efficiency and strongly depend on the right configuration. 
 \newpage
 \subsection{Generation based fuzzing}
 In Generation-Based fuzzing new data is defined based on the expected input of the target specification. Hence knowledge of the system under test is mandatory. It is neccecarry to have a well understanding of the input format, since test cases are generated completly from scratch. It's also importand since we want to ensure to pass the parser of the target system, so our test cases are actually reaching the application.
 Generation based fuzzers achieve this with the help of formal languages. Those are essentially a set of strings of a predefined alphabet. With grammars it is possible to form different expressions based of that. A grammar describes how to form valid strings from the language's alphabet. This is achieved by assigning rules to individual parts of it.
 In most cases so called context free grammars are used. With them it is possible to form lots of relevant languages. They are particularly great for expressing syntactical structures. This can range from actuall programming languages to formats such as JSON or standardized naming conventions like urls. Figure 4 provides a context free grammar to generate valid urls.
-
-\begin{center}
+\begin{figure}[h]
+ \caption{URL Grammar}
+ \begin{center}
 \begin{shaded}
 \begin{internallinenumbers}
 \begin{verbatim}
@@ -192,25 +192,48 @@ In most cases so called context free grammars are used. With them it is possible
      ["", "?<params>"],
 \end{verbatim}
 \end{internallinenumbers}
-\vspace{2mm} Figure 4: URL Grammar
 \end{shaded}
 \end{center}
-A grammar always begins with a start-symbol, followed by a set of expansion rules, which indicates how symbols can be expanded or built.
-\newpage
-\subsection{Application Fuzzing}
-\subsection{Protocoll Fuzzing}
-\subsection{File format Fuzzing}
-\subsection{Network Fuzzing}
-\newpage
+
+\end{figure}
+
+A grammar always begins with a start-symbol, followed by a set of expansion rules, which indicates how symbols can be expanded or built. 
+Essentially we sequentially run over expressions and apply expension rules on the symbols. This means that the symbol on the left, can be replaced by the string on the right. In our example in Figure 4, we would replace the start symbol in line 1 with the string in line 2. This string would then be built with the further symbols and strings continuously. When fully traversed, the grammar is capable of generating various valid urls.
+\begin{figure}[h]
+ \caption{Grammar generated urls}
+ \begin{lstlisting}[style=code]
+	http://hs-albsig.de?abc=x23
+	ftp://user:password@www.albstadt.de=?def&x23
+	https://github.com
+	ftps://user:password@hs-albsig.de?=def
+	http://www.albstadt.de/x68
+ \end{lstlisting} 
+\end{figure}
+We can see that all generated urls are within an accaptable format of a web-parser, hence will actually reach our target system.
+\subsection{Fuzzer types}
+As we have seen already, it is crucial to choose the right fuzzing method. \dots
 \section{Tooling}
-Hundrets of fuzzing tools are availabls. Like wfzuu, afl and zfuzz etc..
+Since Fuzzing required lots of preconfiguration and setup, it is almost always executed with the help of different tools. Only in rare occations it would make sense to manually fuzz a system. This specifically includes old software that is not compatible with modern fuzzing tools. Otherwise all systems that offer interfaces and compute external input, are fuzzable with most modern tools. 
+
+Such fuzzing tools will mainly provide 3 things. Generate test cases as inputs for the system under test, built a connection channel to transfer those inputs to the target interface and monitor the system behaviour.
+
+There are dozens of commerial fuzzing engines and hundrets of self made implementations. Big tech companys often built their own fuzzers to test their it infrastructures. Googles `OSS-Fuzz` was able to find tousends of bugs in many different google applications. 
+
+Among the most relevant fuzzing tool is the american fuzzing loop(afl).
+Afl is responsible for a majority of zero day vulnability findings and will be covered in the folowing example.
 \subsection{Practical example}
-We will fuzz a webserver with afl\dots
+The american fuzzing loop is a powerfull open-source fuzzer that offers all of the shown methods and techniques. On top of that it employs genetic algorithms and feedback instrumentations to increase code coverage. In the following example we will fuzz the c++ programm 'fuzzgoat' \dots
+\begin{figure}[h]
+ \caption{AFL fuzzing}
+ \centering
+ \includegraphics[scale=0.3]{afl.png}
+\end{figure}
+
 \section{Conclusion}
 
 
 
-
+\newpage
 \section{References}
 [1] \textbf{Aimee O'Driscoll}(2022), 25+ cyber security vulnerability statistics and facts of 2022, https://www.comparitech.com/blog/information-security/cybersecurity-vulnerability-statistics/\\
 \\
