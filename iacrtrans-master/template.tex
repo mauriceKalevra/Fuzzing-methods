@@ -147,7 +147,7 @@ These can then be combined and send out.
  \caption{Right approach}
  \begin{lstlisting}[style=code]
 	static = https://www.hs-albsig.de/  
-	seed = "suche/?tx\_solr[q]=\\"
+	seed = suche/?tx\_solr[q]=\\
  \end{lstlisting}
 \end{figure}
 
@@ -209,9 +209,20 @@ Essentially we sequentially run over expressions and apply expension rules on th
 	http://www.albstadt.de/x68
  \end{lstlisting} 
 \end{figure}
+\newpage
 We can see that all generated urls are within an accaptable format of a web-parser, hence will actually reach our target system.
+
+Fuzzing tools that offer generation based funktionalities use such grammars in their inner working flow to create test-cases. \\
+The clear downside of this method is the big configuration needed. It is neccecarry to setup the fuzzer accordingly for every system from scratch. 
 \subsection{Fuzzer types}
-As we have seen already, it is crucial to choose the right fuzzing method. \dots
+As we have seen already, it is crucial to choose the right fuzzing method. Otherwise we might fail to reach the target system with our test cases. Thats why further classifications can be made on the different types of fuzzers. They determine the attack vectors of the system under test. 
+
+Application fuzzers will always focus on the I/O of a system. This includes the user interface, command line parameters or import/export capabilities. For a web application this also means urls, forms or RPC requests. With the help of proxys and sniffers it is fairly simple to record valid inputs of those vectors, hence mutation based fuzzing is often choosen as a method. Application fuzzing  is also among the most used fuzzer type since it sees the most amount of user traffic.
+
+Protocol fuzzers will mostly focus on communication patterns. This could be different data packets of network traffic like http requests, tcp streams et cetera. Since such protocolls are often complex and very case sensitive, it requires good knowledge to test them. In here generation based fuzzers are the method of choice!
+
+File format fuzzing will fuzz different file formats such as jpg etc. \dots
+\newpage
 \section{Tooling}
 Since Fuzzing required lots of preconfiguration and setup, it is almost always executed with the help of different tools. Only in rare occations it would make sense to manually fuzz a system. This specifically includes old software that is not compatible with modern fuzzing tools. Otherwise all systems that offer interfaces and compute external input, are fuzzable with most modern tools. 
 
@@ -228,11 +239,11 @@ The american fuzzing loop is a powerfull open-source fuzzer that offers all of t
  \centering
  \includegraphics[scale=0.3]{afl.png}
 \end{figure}
-\newpage
+
 Figure 6 provides an overview when executing afl \dots
 \section{Conclusion}
 \dots
-
+\newpage
 \section{References}
 [1] \textbf{Aimee O'Driscoll}(2022), 25+ cyber security vulnerability statistics and facts of 2022, https://www.comparitech.com/blog/information-security/cybersecurity-vulnerability-statistics/\\
 \\
