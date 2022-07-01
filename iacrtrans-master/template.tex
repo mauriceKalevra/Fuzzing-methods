@@ -69,7 +69,7 @@ As a final point we will have a conclusion in which we provide a summary and an 
 \newpage
 \section{Fuzzing background}
 Fuzz testing or fuzzing is a method of testing software to detect security holes in applications, operating systems, and networks. It involves flooding their input interfaces with random data, called fuzz, to make them crash or trigger unexpected programm behaviour. Furthermore the computation results are monitered and reported, all in an automated way. Fuzzing has become increasingly more relevant among security researchers and is used by almost all big tech companys for penetration testing[4]. Tech leaders find more than 80 of their bugs by using different fuzzing Methods[5]. Google for example  has found over 15 thousend errors in their browser projekt chrome[6]. Microsoft used dynamic analysis to test one of their flagship projects 'office' and found nearly 2000 bugs using the fuzzing tool afl[7]. Also open source project such as linux use Fuzzing methods on a great scale. Many security bugs within the Linux Kernel have been found this way[8].\\
-Generally a distinction can be made on how fuzzing is executed on a specific interface. Depending on the application or infrastructure of the target system, different types of fuzzers can be used. Application Fuzzing will approach a system by testing functionalitys such as buttons, input fields or command line parameters. File format fuzzing tries to generate corrupted files and feed them to the corresponding target for processing. Other types of fuzzing targets include Protocol Fuzzing and Network fuzzing.\\
+Generally a distinction can be made on how fuzzing is executed on a specific interface. Depending on the application or infrastructure of the target system, different types of fuzzers can be used. Application Fuzzing will approach a system by testing functionalitys such as buttons, input fields or command line parameters. File format fuzzing tries to generate corrupted files and feed them to the corresponding target for processing. Other types of fuzzing targets include Protocol fuzzing and network fuzzing.\\
 In addition more distinction can be made on how the fuzzing inputs or test cases are generated. There are two approaches. Mutation based Fuzzers alter existing data samples to create new test cases.
 Generation based fuzzers will create test cases from scratch based on protocoll knowledge. 
 Both methods have pro and cons and will be covered in more detail later on.
@@ -212,16 +212,27 @@ Essentially we sequentially run over expressions and apply expension rules on th
 \newpage
 We can see that all generated urls are within an accaptable format of a web-parser, hence will actually reach our target system.
 
-Fuzzing tools that offer generation based funktionalities use such grammars in their inner working flow to create test-cases. \\
+Fuzzing tools that offer generation based funktionalities use such grammars in their inner working flow to create test-cases. In reality it is not neccecarry to setup them yourself. Generation based tools instead require to split up input data into its individual parts and then assign rules to them. These creation rules determine how to handle and concatenate every single part in order to built up a valid test-case. The following example shows the first part of an http request, built with such creation rules of the fuzzing tool Sully.
+\begin{figure}[h]
+ \caption{Creation rules in Sully}
+ \begin{lstlisting}[style=code]
+	s_static('GET')
+	s_delim(" ")
+	s_string('index.html ')
+	s_string('HTTP')
+ \end{lstlisting}
+\end{figure}
+The individual parts of an http request are passed to the corresponding rules. Since the protocoll follows a strict syntax via http verbs, the 'GET' string in line 1 is set to static. Every part is continuously assigned to rules that ensure are within the protocolls format. Only Parameters such as strings are set up to be fuzzable.
+   
 The clear downside of this method is the big configuration needed. It is neccecarry to setup the fuzzer accordingly for every system from scratch. 
 \subsection{Fuzzer types}
 As we have seen already, it is crucial to choose the right fuzzing method. Otherwise we might fail to reach the target system with our test cases. Thats why further classifications can be made on the different types of fuzzers. They determine the attack vectors of the system under test. 
 
 Application fuzzers will always focus on the I/O of a system. This includes the user interface, command line parameters or import/export capabilities. For a web application this also means urls, forms or RPC requests. With the help of proxys and sniffers it is fairly simple to record valid inputs of those vectors, hence mutation based fuzzing is often choosen as a method. Application fuzzing  is also among the most used fuzzer type since it sees the most amount of user traffic.
 
-Protocol fuzzers will mostly focus on communication patterns. This could be different data packets of network traffic like http requests, tcp streams et cetera. Since such protocolls are often complex and very case sensitive, it requires good knowledge to test them. In here generation based fuzzers are the method of choice!
+Protocol fuzzers will mostly focus on communication patterns. This could be different data packets of network traffic like http requests, tcp streams et cetera. Since such protocolls are often complex and very case sensitive, it requires good understanding of their inner working flow in order to test them. Hence generation based fuzzers are the method of choice.
 
-File format fuzzing will fuzz different file formats such as jpg etc. \dots
+File format fuzzing will fuzz different file formats such as jpg or png. This is achieved by actually generating images with mutated data. Since users are more likely to open pictures than executables it is espacially interesting for attackers to discover bugs with this method.  \dots
 \newpage
 \section{Tooling}
 Since Fuzzing required lots of preconfiguration and setup, it is almost always executed with the help of different tools. Only in rare occations it would make sense to manually fuzz a system. This specifically includes old software that is not compatible with modern fuzzing tools. Otherwise all systems that offer interfaces and compute external input, are fuzzable with most modern tools. 
@@ -241,6 +252,7 @@ The american fuzzing loop is a powerfull open-source fuzzer that offers all of t
 \end{figure}
 
 Figure 6 provides an overview when executing afl \dots
+\newpage
 \section{Conclusion}
 \dots
 \newpage
