@@ -7,7 +7,7 @@
 
 
 %%%% 2. PACKAGES %%%%
-\usepackage[pagewise]{lineno}
+\usepackage[left, pagewise,edtable]{lineno}
 \usepackage{blt}
 \usepackage{graphicx}
 \usepackage{framed} 
@@ -51,7 +51,7 @@
 
 %%%% 6. ABSTRACT %%%%
 \begin{abstract}
-Modern Softwares has become increasingly more complex. This is connected with growing nummbers of security bugs and cyberattacks[1]. Software testing tries to oppose that development. Fuzzing is a dynamic automated way of testing systems and sees growing usage among security profesionals. It has gained growing attention after several zero day vulnerabilitys have been found with this approach. This paper examines different methods to use this technology. 
+Modern Software has become increasingly more complex. This is connected with growing numbers of security bugs and cyberattacks. Software testing tries to counter that development. Fuzzing is a dynamic automated way of testing systems and sees growing usage among security profesionals. It has gained growing attention after several zero day vulnerabilitys have been found with this approach. This paper examines different methods to use this technology. 
 \end{abstract}
 
 %%%% 7. PAPER CONTENT %%%%
@@ -232,8 +232,12 @@ Application fuzzers will always focus on the I/O of a system. This includes the 
 
 Protocol fuzzers will mostly focus on communication patterns. This could be different data packets of network traffic like http requests, tcp streams et cetera. Since such protocolls are often complex and very case sensitive, it requires good understanding of their inner working flow in order to test them. Hence generation based fuzzers are the method of choice.
 
-File format fuzzing will fuzz different file formats such as jpg or png. This is achieved by actually generating images with mutated data. Since users are more likely to open pictures than executables it is espacially interesting for attackers to discover bugs with this method.  \dots
-\newpage
+File format fuzzing will fuzz different file formats such as jpg or png. This is achieved by generating multiple malformed samples which are then opened in the target application. 
+If the application crashes, the file is saved for later review. 
+
+The main goal is then to gain control over the crash. This might led to an exploit.
+
+Since users are more likely to interact with images than executables it is espacially dangerous if findings occur in such file types.
 \section{Tooling}
 Since Fuzzing required lots of preconfiguration and setup, it is almost always executed with the help of different tools. Only in rare occations it would make sense to manually fuzz a system. This specifically includes old software that is not compatible with modern fuzzing tools. Otherwise all systems that offer interfaces and compute external input, are fuzzable with most modern tools. 
 
@@ -244,18 +248,36 @@ There are dozens of commerial fuzzing engines and hundrets of self made implemen
 Among the most relevant fuzzing tool is the american fuzzing loop(afl).
 Afl is responsible for a majority of zero day vulnability findings and will be covered in the folowing example.
 \subsection{Practical example}
-The american fuzzing loop is a powerfull open-source fuzzer that offers all of the shown methods and techniques. On top of that it employs genetic algorithms and feedback instrumentations to increase code coverage. In the following example we will fuzz the c++ programm 'fuzzgoat' \dots
+The american fuzzing loop is a powerfull open-source fuzzer that offers all of the covered methods and techniques. On top of that it employs genetic algorithms and feedback instrumentations to increase code coverage. In the following example we will fuzz the C programm Fuzzgoat. It has several deliberate memory corruption bugs that are easily found by afl. Bevore the  fuzzing process can start, we have to do some preconfigurations. 
+\begin{figure}[h]
+ \caption{afl configuration}
+ \begin{lstlisting}[style=code]
+    $~ export CC=afl-clang-fast
+    $~ make
+    $~ mkdir afl_in
+    $~ cp /bin/ps afl_in/   
+    $~ mkdir afl_out
+    $~ afl-fuzz -i afl_in -o afl_out -- ./fuzzgoat @@
+\end{lstlisting}
+\end{figure}
+
+At first it is neccecarry to compile the the target binary with afl's built in compiler. This way the target is setup for feedback instrumentation and afl is able to read out code paths and general code coverage.
+
+In line 1 we tell afl to use the compiler afl-clang-fast, to then compile the binary with it.
+Following we create a directory afl\_in. In line 4 we copy the binary of an Unix utility to this directory. This is essentially the seed of which afl will create the test cases. To store results we create another directory afl\_out. In there afl will provide information about crashes and bugs. 
+In line 6 we start the actual fuzzing process by passing the seed and output locations as well as the target binary. 
+
+Afl will now take inputs of the seed, mutate them and insert the test cases in the target application’s command structure.
+
+When afl is stared, it spawns an interface in the terminal that provides different informations about the fuzzing proces.
 \begin{figure}[h]
  \caption{AFL fuzzing}
  \centering
  \includegraphics[scale=0.3]{afl.png}
 \end{figure}
 
-Figure 6 provides an overview when executing afl \dots
-\newpage
 \section{Conclusion}
-\dots
-\newpage
+
 \section{References}
 [1] \textbf{Aimee O'Driscoll}(2022), 25+ cyber security vulnerability statistics and facts of 2022, https://www.comparitech.com/blog/information-security/cybersecurity-vulnerability-statistics/\\
 \\
