@@ -268,16 +268,22 @@ Following we create a directory afl\_in. In line 4 we copy the binary of an Unix
 In line 6 we start the actual fuzzing process by passing the seed and output locations as well as the target binary. 
 
 Afl will now take inputs of the seed, mutate them and insert the test cases in the target application’s command structure.
-
-When afl is stared, it spawns an interface in the terminal that provides different informations about the fuzzing proces.
+When afl is stared, it spawns an interface in the terminal that provides different informations about the fuzzing process. This includes the amount of code coverage, which test cases are currently passed and the number of findings. 
 \begin{figure}[h]
  \caption{AFL fuzzing}
- \centering
- \includegraphics[scale=0.3]{afl.png}
+ \begin{center}
+   \includegraphics[scale=0.3]{afl.png}
+
+ \end{center}
 \end{figure}
+\newpage
+Depending on the tested application it can be neccecarry to run afl for several hours to days. When finished it is possible to examine the findings in the output folder. In there afl lists all the test cases that posed crashes and bugs. Following those findings can then be analysed and rated.
+
+As a final act reports can be written.
+
 
 \section{Conclusion}
-
+Fuzzing is very convinient and efficient, yet depends on the right configuration and is not easy to setup.
 \section{References}
 [1] \textbf{Aimee O'Driscoll}(2022), 25+ cyber security vulnerability statistics and facts of 2022, https://www.comparitech.com/blog/information-security/cybersecurity-vulnerability-statistics/\\
 \\
