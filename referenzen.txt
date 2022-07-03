@@ -1,0 +1,40 @@
+\section{References}
+[1] \textbf{Aimee O'Driscoll}(2022), 25+ cyber security vulnerability statistics and facts of 2022, https://www.comparitech.com/blog/information-security/cybersecurity-vulnerability-statistics/\\
+\\
+\noindent[2] \textbf{Emilio Granado Franco}(2022),  Global Risks Report 2022, Chapter 3. Digital Dependencies and Cyber Vulnerabilities\\
+
+\noindent[3] \textbf{Chess, B. and McGraw, G.}(2004), Static analysis for security, IEEE Security \& Privacy, 10.1109/MSP.2004.111
+\\
+
+
+\noindent[4] \textbf{Li, Jun and Zhao, Bodong and Zhang, Chao}(2018),     Fuzzing: a survey, SpringerOpen
+\\
+
+\noindent [5] \textbf{Sergej Dechand}(2020), Introduction and fuzzing 101 @Fuzzconn Europe 2020, CodeIntelligence, https://www.youtube.com/watch?v=7AdzrXbUew0
+\\
+
+\noindent [6] \textbf{Liam Tung}(2019),  Google: We've open-sourced ClusterFuzz tool that found 16,000 bugs in Chrome, https://www.zdnet.com/article/google-weve-open-sourced-clusterfuzz-tool-that-found-16000-bugs-in-chrome/
+\\
+
+\noindent [7] \textbf{Sergej Dechand}(2020), Introduction and fuzzing 101 @Fuzzconn Europe 2020, CodeIntelligence, https://www.youtube.com/watch?v=7AdzrXbUew0
+\\
+
+\noindent[8] \textbf{Jonathan Reimer}(2020), 5 CVEs Found With Feedback-Based Fuzzing, https://www.code-intelligence.com/blog/5-cves-found-with-feedback-based-fuzzing
+\\
+
+\noindent[9] \textbf{Li, Jun and Zhao, Bodong and Zhang, Chao}(2018),     Fuzzing: a survey, SpringerOpen
+\\
+
+
+\noindent[10] \textbf{Cornelius Aschermann}(2020), Algorithmic Improvements for
+Feedback-Driven Fuzzing, SpringerOpen
+\\
+
+\noindent[11] \textbf{NIST}(2019), Vulnerability Metrics, https://nvd.nist.gov/vuln-metrics/cvss
+\\
+
+\noindent[12] \textbf{Parul Garg}(2012), Fuzzing: Mutation vs. generation, https://resources.infosecinstitute.com/topic/fuzzing-mutation-vs-generation/
+\\
+
+\noindent[13] \textbf{Andreas Zeller}(2022), Fuzzing: Breaking things with random inputs, https://www.youtube.com/watch?v=YjO1pIx7wS4/
+\\
