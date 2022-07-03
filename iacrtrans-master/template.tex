@@ -6,7 +6,7 @@
 % - Add "spthm" for LNCS-like theorems
 
 
-%%%% 2. PACKAGES %%%%
+%%%% 2. PACKAGES %%%tsd
 \usepackage[left, pagewise,edtable]{lineno}
 \usepackage{blt}
 \usepackage{graphicx}
@@ -17,7 +17,7 @@
 \colorlet{shadecolor}{gray!25}
 \definecolor{mshadecolor}{rgb}{0.7421875,0.7421875,0.7421875}
 \setlength{\OuterFrameSep}{10pt}
-%%%% 3. AUTHOR, INSTITUTE %%%%
+%%%% 3. AUTHOR, INSTITUTE %%%
 \author{Moritz Rupp}
 \institute{
   Hochschule Albstadt-Sigmaringen, Albstadt, Germany, \email{ruppmori@hs-albsig.de}
@@ -139,7 +139,7 @@ As we already know, this method will simply alter already existing data. This ca
 
 \end{figure}
 At first, in line 1 the seed is determined. Following a fuzzer object is applied and the seed is passed (see line 2). Then we call the fuzzer method to mutate the given inputs without setting up any fixed patterns. This results in several mutated URLs. The inner procedure is simple. The fuzzer engine will take a random index of the seed in the range of the string length. The index value will then be flipped.  Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
-Most of the generated outputs are invalid urls, and will be rejected by the parser of the target system. In fact, several of the generated URLs will never reach our initial target, the webserver. This implementation will moreover fuzz the URL-parser than the HTTP-server.
+Most of the generated outputs are invalid URLs, and will be rejected by the parser of the target system. In fact, several of the generated URLs will never reach our initial target, the webserver. This implementation will moreover fuzz the URL-parser than the HTTP-server.
 Therefore, it is necessary to be very patient about which part of valid inputs should get passed to the seed to be fuzzed. 
 
 In this concrete example the right approach would be to setup a  static corpus and only mutate the string of the file path and parameters. 
@@ -162,7 +162,7 @@ Still mutation based fuzzers lack in efficiency and strongly depend on the right
 \subsection{Generation based fuzzing}
 In generation based fuzzing new data is defined based on the expected input of the target specification. Hence knowledge of the system under test is mandatory. It is necessary to have a good understanding of the input format, since test cases are generated completely from scratch. It's also important since we want to ensure to pass the parser of the target system, so our test cases are actually reaching the application.
 Generation based fuzzers achieve this with the help of formal languages. Those are essentially a set of strings of a predefined alphabet. With grammars it is possible to form different expressions based of that. A grammar describes how to form valid strings from the language's alphabet. This is achieved by assigning rules to individual parts of it.
-In most cases so called context free grammars are used. With them it is possible to form lots of relevant languages. They are particularly great for expressing syntactical structures. This can range from actual programming languages to formats such as JSON or standardized naming conventions like urls. Figure 4 provides a context free grammar to generate valid urls.
+In most cases so called context free grammars are used. With them it is possible to form lots of relevant languages. They are particularly great for expressing syntactical structures. This can range from actual programming languages to formats such as JSON or standardized naming conventions like URLs. Figure 4 provides a context free grammar to generate valid URLs.
 \begin{figure}[h]
  \caption{URL Grammar}
  \begin{center}
@@ -203,7 +203,7 @@ In most cases so called context free grammars are used. With them it is possible
 A grammar always begins with a start-symbol, followed by a set of expansion rules, which indicates how symbols can be expanded or built. 
 Essentially, we sequentially run over expressions and apply expension rules on the symbols. This means that the symbol on the left, can be replaced by the string on the right. In our example in Figure 4, we would replace the start symbol in line 1 with the string in line 2. This string would then be built with the further symbols and strings continuously. When fully traversed, the grammar is capable of generating various valid URLs.
 \begin{figure}[h]
- \caption{Grammar generated urls}
+ \caption{Grammar generated URLs}
  \begin{lstlisting}[style=code]
 	http://hs-albsig.de?abc=x23
 	ftp://user:password@www.albstadt.de=?def&x23
@@ -213,7 +213,7 @@ Essentially, we sequentially run over expressions and apply expension rules on t
  \end{lstlisting} 
 \end{figure}
 \newpage
-We can see that all generated urls are within an acceptable format of a web-parser, hence will actually reach our target system.
+We can see that all generated URLs are within an acceptable format of a web-parser, hence will actually reach our target system.
 
 Fuzzing tools that offer generation based functionalities use such grammars in their inner working flow to create test-cases. In reality it is not necessary to setup them yourself. Generation based tools instead require to split up input data into its individual parts and then assign rules to them. These creation rules determine how to handle and concatenate every single part in order to built up a valid test-case. The following example shows the first part of an http request, build with such creation rules of the fuzzing tool Sully.
 \begin{figure}[h]
@@ -233,9 +233,9 @@ The clear downside of this method is the big configuration needed. It is The ind
 \subsection{Fuzzer types}
 As we have seen already, it is crucial to choose the right fuzzing method. Otherwise, we might fail to reach the target system with our test cases. That's  why further classifications can be made on the different types of fuzzers. They determine the attack vectors of the system under test. 
 
-Application fuzzers will always focus on the I/O of a system. This includes the user interface, command line parameters or import/export capabilities. For a web application this also means urls, forms or RPC requests. With the help of proxys and sniffers, it is fairly simple to record valid inputs of those vectors, hence mutation based fuzzing is often chosen as a method. Application fuzzing  is also among the most used fuzzer type since it sees the most amount of user traffic.
+Application fuzzers will always focus on the I/O of a system. This includes the user interface, command line parameters or import/export capabilities. For a web application this also means URLs, forms or RPC requests. With the help of proxys and sniffers, it is fairly simple to record valid inputs of those vectors, hence mutation based fuzzing is often chosen as a method. Application fuzzing  is also among the most used fuzzer type since it sees the most amount of user traffic.
 
-Protocol fuzzers will mostly focus on communication patterns. This could be different data packets of network traffic like http requests, TCP streams et cetera. Since such protocols are often complex and very case sensitive, it requires good understanding of their inner working flow in order to test them. Hence, generation based fuzzers are the method of choice.
+Protocol fuzzers will mostly focus on communication patterns. This could be different data packets of network traffic like HTTP requests, TCP streams et cetera. Since such protocols are often complex and very case sensitive, it requires good understanding of their inner working flow in order to test them. Hence, generation based fuzzers are the method of choice.
 
 File format fuzzing will fuzz different file formats such as JPG or PNG. This is achieved by generating multiple malformed samples which are then opened in the target application. 
 If the application crashes, the file is saved for later review. 
@@ -281,7 +281,7 @@ When AFL is started, it spawns an interface in the terminal that provides differ
 
  \end{center}
 \end{figure}
-\newpage
+
 Depending on the tested application, it can be necessary to run AFL for several hours to days. When finished, it is possible to examine the findings in the output folder. In there AFL lists all the test cases that posed crashes and bugs. Following those findings can then be analysed and rated. As a final act reports can be written and passed to the corresponding responsible.
 
 

@@ -76,7 +76,7 @@
 \def\IACR@no{0}
 \def\IACR@fp{1}
 \def\IACR@lp{\if@loadhr\pageref*{LastPage}\else\pageref{LastPage}\fi}
-\def\IACR@ISSN{XXXX-XXXX}
+\def\IACR@ISSN{X}
 \def\IACR@DOI{XXXXXXXX}
 \def\IACR@Received{20XX-XX-XX}
 \def\IACR@Revised{20XX-XX-XX}
@@ -91,7 +91,7 @@
 \newcommand{\setlastpage}[1]{\def\IACR@lp{#1}}
 \newcommand{\setvolume}[1]{\def\IACR@vol{#1}}
 \newcommand{\setnumber}[1]{\def\IACR@no{#1}}
-\newcommand{\setISSN}[1]{\def\IACR@ISSN{#1}}
+%\newcommand{\setISSN}[1]{\def\IACR@ISSN{#1}}
 \newcommand{\setDOI}[1]{\def\IACR@DOI{#1}}
 
 \newcommand{\setReceived}[1]{\@IACR@Receivedtrue\def\IACR@Received{#1}}
@@ -305,8 +305,8 @@
     \fancyhead[L]{%
       \small%
       \publname{}\\
-      ISSN~\IACR@ISSN, Vol.~\IACR@vol, No.~\IACR@no, pp.~\IACR@fp--\IACR@lp. \hfill{}%
-      \if@loadhr{\href{https://doi.org/\IACR@DOI}{DOI:\IACR@DOI}}\else{DOI:\IACR@DOI}\fi%
+      %ISSN~\IACR@ISSN, Vol.~\IACR@vol, No.~\IACR@no, pp.~\IACR@fp--\IACR@lp. \hfill{}%
+      %\if@loadhr{\href{https://doi.org/\IACR@DOI}{DOI:\IACR@DOI}}\else{DOI:\IACR@DOI}\fi%
     }
     \fancyfoot[L]{%
       \small%
