@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.4.5)  20 JUN 2022 13:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.4.5)  3 JUL 2022 23:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -956,10 +956,10 @@ thkerncmss.
 <basicfuzz.png, id=157, 2327.69624pt x 719.68875pt>
 File: basicfuzz.png Graphic file (type png)
 <use basicfuzz.png>
-Package pdftex.def Info: basicfuzz.png  used on input line 79.
+Package pdftex.def Info: basicfuzz.png  used on input line 82.
 (pdftex.def)             Requested size: 349.13937pt x 107.94865pt.
 
-Overfull \hbox (6.84407pt too wide) in paragraph at lines 79--79
+Overfull \hbox (6.84407pt too wide) in paragraph at lines 82--82
  [] 
  []
 
@@ -973,7 +973,7 @@ Overfull \hbox (6.84407pt too wide) in paragraph at lines 79--79
 <basic2.png, id=178, 1993.4475pt x 460.72125pt>
 File: basic2.png Graphic file (type png)
 <use basic2.png>
-Package pdftex.def Info: basic2.png  used on input line 110.
+Package pdftex.def Info: basic2.png  used on input line 116.
 (pdftex.def)             Requested size: 299.00423pt x 69.1052pt.
  [10
 
@@ -983,7 +983,7 @@ Package pdftex.def Info: basic2.png  used on input line 110.
 <mutatate.png, id=191, 637.38126pt x 166.6225pt>
 File: mutatate.png Graphic file (type png)
 <use mutatate.png>
-Package pdftex.def Info: mutatate.png  used on input line 126.
+Package pdftex.def Info: mutatate.png  used on input line 139.
 (pdftex.def)             Requested size: 318.68985pt x 83.31104pt.
  [12
 
@@ -1023,18 +1023,18 @@ Package rerunfilecheck Info: File `keynote.out' has not changed.
 (rerunfilecheck)             Checksum: 2E63EF6C50F1CC768B8E4E2293676F69;627.
  ) 
 Here is how much of TeX's memory you used:
- 18256 strings out of 479304
- 352686 string characters out of 5869780
+ 18257 strings out of 479304
+ 352701 string characters out of 5869780
  648143 words of memory out of 5000000
- 34943 multiletter control sequences out of 15000+600000
- 410487 words of font info for 52 fonts, out of 8000000 for 9000
+ 34944 multiletter control sequences out of 15000+600000
+ 410792 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  131i,15n,132p,411b,601s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on keynote.pdf (22 pages, 192121 bytes).
+Output written on keynote.pdf (22 pages, 192364 bytes).
 PDF statistics:
  286 PDF objects out of 1000 (max. 8388607)
  223 compressed objects within 3 object streams
