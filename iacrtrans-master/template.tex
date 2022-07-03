@@ -56,39 +56,42 @@ Modern Software has become increasingly more complex. This is connected with gro
 
 %%%% 7. PAPER CONTENT %%%%
 \section{Introduction}
-Development of any kind has always come with bugs, errors and unintentionally behaviour. Software is no exception. Increasingly complex programs and growing technology stacks contribute to this problem. On top of that, finished components are often continuously integrated. As a result, it becomes ever more difficult to predict final program behaviour. This yields in risks, particular if an application is processing external data input. If not handled correctly it can pose security vulnerabilitys or data breaches.
+Development of any kind has always come with bugs, errors and unintentionally behaviour. Software is no exception. Increasingly complex programs and growing technology stacks, contribute to this problem. On top of that, finished components are often continuously integrated. As a result, it becomes ever more difficult to predict final program behaviour. This yields risks, particular if an application is processing external data input. If not handled correctly it can pose security vulnerabilitys or data breaches.
 
-The bigger a programm gets, more often such unwanted appearances occur. A field in which this is most noticable is web-development. Whereas 15 years ago, most websites were built on top of a view technologys, modern web-applications often use several framework with huge amounts of dependencys. This lead to an increasing amount of security bugs[2]. Different approaches in software testing tries to oppose that development.
+The bigger a programm gets, more often such unwanted appearances occur. A field in which this is most noticable is web-development. Whereas 15 years ago, most websites were built on top of a few technologies, modern web-applications often use several frameworks with huge amounts of dependencys. This lead to an increasing amount of security bugs[2]. Different approaches in software testing tries to oppose that development.
 
-Back when software was relativly simple and free of dependencys, manuel testing was the state of play. That included code reviews and manuel checks for potentiel exploitation. This was time consuming and needed experts for every specific application. Therefore static analyis was quickly adapted. This contained new techniques such as pattern search with a control flow graph, data dependency graph and data flow analysis[3]. When software grew even more in complexity, security researchers needed a more scalable approach. Hence dynamic analyis was implemented. This method tries to understand software behaviour by testing and evaluating the target system while it is running. 
+Back when software was relativly simple and free of dependences, manual testing was the state of the art. That included code reviews and manual checks for potential exploitation. This was time consuming and needed experts for every specific application. Therefore static analyis was quickly adapted. This contained new techniques such as pattern search with a control flow graph, data dependency graph and data flow analysis [3]. When software grew even more in complexity, security researchers needed a more scalable approach. Hence dynamic analyis was implemented. This method tries to understand software behaviour by testing and evaluating the target system while it is running. 
 
-Fuzz-testing is the cutting edge of this technique and will be explored in this paper. A particular emphasis will be led on the different methods used in fuzzing. 
-At first we will examine the basic concepts and functionality of the general process. On top of that different methods in Fuzzing will be explored. That expresses itself in how certain functionalitys of the fuzzing application are executed. This section will be the main focus of the paper. Following we will also cover practical usage by showcasing different tools and a concrete example. 
+Fuzz testing is the cutting edge of this technique and will be explored in this paper. A particular emphasis will be led on the different methods used in fuzzing. 
+At first we will examine the basic concepts and functionality of the general process. On top of that different methods in fuzzing will be explored. That expresses itself in how certain functionalities of the fuzzing application are executed. This section will be the main focus of the paper. Following we will also cover the practical usage by showcasing different tools and a concrete example. 
 
-As a final point we will have a conclusion in which we provide a summary and an assessment of the pros and cons of Fuzz-testing. 
+As a final point we will have a conclusion in which we provide a summary and an assessment of the pros and cons of fuzz testing. 
 \newpage
 \section{Fuzzing background}
-Fuzz testing or fuzzing is a method of testing software to detect security holes in applications, operating systems, and networks. It involves flooding their input interfaces with random data, called fuzz, to make them crash or trigger unexpected programm behaviour. Furthermore the computation results are monitered and reported, all in an automated way. Fuzzing has become increasingly more relevant among security researchers and is used by almost all big tech companys for penetration testing[4]. Tech leaders find more than 80 of their bugs by using different fuzzing Methods[5]. Google for example  has found over 15 thousend errors in their browser projekt chrome[6]. Microsoft used dynamic analysis to test one of their flagship projects 'office' and found nearly 2000 bugs using the fuzzing tool afl[7]. Also open source project such as linux use Fuzzing methods on a great scale. Many security bugs within the Linux Kernel have been found this way[8].\\
-Generally a distinction can be made on how fuzzing is executed on a specific interface. Depending on the application or infrastructure of the target system, different types of fuzzers can be used. Application Fuzzing will approach a system by testing functionalitys such as buttons, input fields or command line parameters. File format fuzzing tries to generate corrupted files and feed them to the corresponding target for processing. Other types of fuzzing targets include Protocol fuzzing and network fuzzing.\\
+Fuzz testing or fuzzing is a method of testing software to detect security holes in applications, operating systems, and networks. It involves flooding their input interfaces with random data, called fuzz, to make them crash or trigger unexpected programm behaviour. Furthermore the computation results are monitered and reported, all in an automated way. Fuzzing has become increasingly more relevant among security researchers and is used by almost all big tech companys for penetration testing[4]. Tech leaders find more than 80 of their bugs by using different fuzzing Methods[5]. Google for example  has found over 15 thousend errors in their browser projekt chrome[6]. Microsoft used dynamic analysis to test one of their flagship projects 'office' and found nearly 2000 bugs using the fuzzing tool afl[7]. Also open source projects such as linux use fuzzing methods on a great scale. Many security bugs within the Linux Kernel have been found this way[8].
+
+Generally a distinction can be made on how fuzzing is executed on a specific interface. Depending on the application or infrastructure of the target system, different types of fuzzers can be used. Application fuzzing will approach a system by testing functionalities such as buttons, input fields or command line parameters. File format fuzzing tries to generate corrupted files and feed them to the corresponding target for processing. Other types of fuzzing targets include protocol fuzzing and network fuzzing.
+
 In addition more distinction can be made on how the fuzzing inputs or test cases are generated. There are two approaches. Mutation based Fuzzers alter existing data samples to create new test cases.
 Generation based fuzzers will create test cases from scratch based on protocoll knowledge. 
 Both methods have pro and cons and will be covered in more detail later on.
 
 \section{Functionality}
-This section will provide a perspective on the basic concept of Fuzzing.
+This section will provide a perspective on the basic concept of fuzzing.
 
 Regardless of the specific implementation, the core process of all fuzzers remains the same. First the target interface has to be identified. Relevant are all interfaces that allow external data input. This ranges from network sockets, user-input on a website, to linux binarys et cetera. Specifically interesting are interfaces that are reachable by unpriviliged users. The act of finding those target interfaces highly depends on the tested application and could include things like code reviews or portscanning. 
 
 
 Based on the findings, the fuzzer input can now be generated. This is one main task of the actual fuzz-engine. In the most basic case, it will generate pseudo random inputs based of the given seed. The seed could contain anything that makes sense in the context of the expected data[9]. Essentially a snapshoot of valid inputs for the target system. This will be mostly combinations of strings and intergers. 
 
-Following the test cases can be passed to the  target system. Depending on the identfied interfaces, different transfer methods are used. This could involve HTTP Requests, tcp sockets or simply files or input parameters for a programm. While the Fuzz-engine is sending the generated inputs, the target system has to be monitered to track how the testcases effect the system behaviour. Monitering and tracking can be achieved with different approaches. A convinient but not always available case are logging functions of the target system. They can be simply read out during or after the fuzzing process. If the target is lacking such functionalitys they first have to be implemented. 
+Following the test cases can be passed to the  target system. Depending on the identfied interfaces, different transfer methods are used. This could involve HTTP Requests, tcp sockets or simply files or input parameters for a programm. While the fuzz-engine is sending the generated inputs, the target system has to be monitered to track how the testcases effect the system behaviour. Monitering and tracking can be achieved with different approaches. A convinient but not always available case are logging functions of the target system. They can be simply read out during or after the fuzzing process. If the target is lacking such functionalitys they first have to be implemented. 
 
-More features are feedback instrumentations. Those are compile time binarys that are inserted into the target code to track and tell the fuzzer which parts of the internal programmflow is effected and has already been covered. This ensures to establish a correlation between test cases and programm behaviour. The Feedback gets send back to the fuzzing-engine and can be read out or reprocessed[10].
+More features are feedback instrumentations. Those are compile time binarys that are inserted into the target code to track and tell the fuzzer which parts of the internal programmflow is effected and has already been covered. This ensures to establish a correlation between test cases and programm behaviour. The feedback gets send back to the fuzzing engine and can be read out or reprocessed[10].
 \newpage
 
-\noindent Figure 1 provides an overview of a basic mutation based fuzzing implementation. The Fuzzer as seen between the Seed and the target system includes a mutation engine and genetic algorithms. The Fuzzing process can now lapse as follows.\\
-The Seed streams valid inputs to the fuzzer that will modifiy these with the help of the mutation engine. Following the mutated inputs gets send to the target system in which feedback instrumentations listen for exceptions, log them and provide feedback to the fuzzer. Based on that genetic algorithms produce further inputs.
+\noindent Figure 1 provides an overview of a basic mutation based fuzzing implementation. The fuzzer as seen between the seed and the target system includes a mutation engine and genetic algorithms. The fuzzing process can now proceed as follows.
+
+The seed streams valid inputs to the fuzzer that will modifiy these with the help of the mutation engine. Following the mutated inputs gets send to the target system in which feedback instrumentations listen for exceptions, log them and provide feedback to the fuzzer. Based on that genetic algorithms produce further inputs.
 
 Once the fuzzing process has endet, it is now possible to analyse and minimize the findings. This includes to determine if a tracked exeption could actually cause a vulnability or even an exploit. Furthermore these assessments are rated. This is done by ranking frameworks like the common vulnability scoring system(CVSS)[11]. Finally all relevant informations are summed up, reported and passed to the corresponding responsible. 
 \begin{figure}
@@ -103,23 +106,23 @@ Once the fuzzing process has endet, it is now possible to analyse and minimize t
 \end{figure}
 
 \section{Fuzzing Methods}
-Due to the huge landscape of applications, infrastructures and use cases, enourmes classifications exist around fuzzing. 
+Due to the huge landscape of applications, infrastructures and use cases, enormous classifications exist around fuzzing. 
 
 In this section we will further examine the different methods used to generate the fuzzing input, like random, mutation and generation based fuzzing. Afterwards we will also cover different types of target focused fuzzers such as application or file format fuzzing et cetera. 
 \subsection{Random fuzzing}
-When fuzzing was invented in 1988 by Professor Barton P. Miller at the University of wisconsin, random fuzzing was the very first approach[12].
+When fuzzing was invented in 1988 by Barton P. Miller, random fuzzing was the very first approach[12].
 
-When Miller held a lecture remotely via a telephone connection, a thunderstorm caused electrical disturbances in the telephoneline. This resulted in garbled transmissions. Based on these random occuranced, Miller stated that bad input  could be used to crash other systems. He and his students applied this observation on different unix utilites their where using at that time. They remarked that  more than 30\% of the tested programms where vulnerable to bad input[13]. 
+When Miller held a lecture remotely via a telephone connection, a thunderstorm caused electrical disturbances in the telephoneline. This resulted in garbled transmissions. Based on these random occurances, Miller stated that bad input  could be used to crash other systems. He and his students applied this observation on different Unix utilites they where using at that time. They remarked that  more than 30\% of the tested programms where vulnerable to bad input[13]. 
 
-Initally they simply manuelly passed pseudo random inputs to these programms. Later on miller made a programming assigment to his students, that stated to automate this task. The very first fuzzer was born. The basic principle still holds up today. 
+Initally they simply manually passed pseudo random inputs to these programms. Later on miller made a programming assigment to his students, that stated to automate this task. The very first fuzzer was born. The basic principle still holds up today. 
 
-Random fuzzers will simply generate inputs by randomly concatenate characters that are provided in a seed. The method is mainly used for black box testing, since in there input formats are mostly unknown. A clear downside are the huge amounts of invalid inputs such a fuzzer will produce. 
+Random fuzzers will simply generate inputs by randomly concatenate characters that are provided in a seed. The method is mainly used for black box testing, since input formats are mostly unknown. A clear downside are the huge amounts of invalid inputs such a fuzzer will produce. 
 
 Most of the generated test cases are getting rejected by the parser of the target programm. Hence random fuzzers are often used to test parser applications.
 
-Another usecase are to fuzz strings of programm parameters. They barely follow any specific structure and are therefore an ideal target for random bazzed fuzzers. 
+Another use case are to fuzz strings of programm parameters. They barely follow any specific structure and are therefore an ideal target for random based fuzzers. 
 \subsection{Mutation based fuzzing}
-As we already know, this method will simply alter already existing data. This can be based of available information in case the target inputs are known. Otherwise it is first neccecarry to record valid inputs. This can be achieved via proxys that will record communication or interaction patterns. These valid inputs can then be mutated, either in a completly random manner or after fixed patterns. Figure 2 provides a mutation based implementation in pseudo code. 
+As we already know, this method will simply alter already existing data. This can be based of available information in case the target inputs are known. Otherwise it is first necessary to record valid inputs. This can be achieved via proxies that will record communication or interaction patterns. These valid inputs can then be mutated, either in a completely random manner or after fixed patterns. Figure 2 provides a mutation based implementation in pseudo code. 
 
 \begin{figure}[h]
 \caption{Mutated fuzzing outputs}
@@ -135,11 +138,11 @@ As we already know, this method will simply alter already existing data. This ca
 \end{lstlisting}
 
 \end{figure}
-At first, in line 1 the seed is determined. Following a Fuzzer object is applied and the seed is passed(see line 2). Then we call the fuzzer method to mutate the given inputs without setting up any fixed patterns. This results in several mutated urls. The inner procedure is simple. The fuzzer engine will take a random index of the seed in the range of the string length. The index value will then be flipped.  Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
-Most of the generated outputs are invalid urls, and will be rejected by the parser of the target system. In fact several of the generated urls will never reach our inital target, the webserver. This implementation will moreover fuzz the url-parser than the http-server.
-Therefore it is neccecarry to be very patience about which part of valid inputs should get passed to the seed to be fuzzed. 
+At first, in line 1 the seed is determined. Following a fuzzer object is applied and the seed is passed (see line 2). Then we call the fuzzer method to mutate the given inputs without setting up any fixed patterns. This results in several mutated URLs. The inner procedure is simple. The fuzzer engine will take a random index of the seed in the range of the string length. The index value will then be flipped.  Here we instantly see why mutation based fuzzers are often called 'dumb fuzzers'. 
+Most of the generated outputs are invalid urls, and will be rejected by the parser of the target system. In fact several of the generated URLs will never reach our inital target, the webserver. This implementation will moreover fuzz the URL-parser than the HTTP-server.
+Therefore it is necessary to be very patient about which part of valid inputs should get passed to the seed to be fuzzed. 
 
-In this concrette example the right approach would be to setup a  static corpus and only mutate the string of the file path and parameters. 
+In this concrete example the right approach would be to setup a  static corpus and only mutate the string of the file path and parameters. 
 These can then be combined and send out.
 
 
@@ -157,7 +160,7 @@ Even more precision can be achived by providing multiple seeds that represent di
 Still mutation based fuzzers lack in efficiency and strongly depend on the right configuration. 
 \newpage
 \subsection{Generation based fuzzing}
-In Generation-Based fuzzing new data is defined based on the expected input of the target specification. Hence knowledge of the system under test is mandatory. It is neccecarry to have a well understanding of the input format, since test cases are generated completly from scratch. It's also importand since we want to ensure to pass the parser of the target system, so our test cases are actually reaching the application.
+In generation based fuzzing new data is defined based on the expected input of the target specification. Hence knowledge of the system under test is mandatory. It is neccecarry to have a well understanding of the input format, since test cases are generated completly from scratch. It's also importand since we want to ensure to pass the parser of the target system, so our test cases are actually reaching the application.
 Generation based fuzzers achieve this with the help of formal languages. Those are essentially a set of strings of a predefined alphabet. With grammars it is possible to form different expressions based of that. A grammar describes how to form valid strings from the language's alphabet. This is achieved by assigning rules to individual parts of it.
 In most cases so called context free grammars are used. With them it is possible to form lots of relevant languages. They are particularly great for expressing syntactical structures. This can range from actuall programming languages to formats such as JSON or standardized naming conventions like urls. Figure 4 provides a context free grammar to generate valid urls.
 \begin{figure}[h]
@@ -239,16 +242,16 @@ The main goal is then to gain control over the crash. This might led to an explo
 
 Since users are more likely to interact with images than executables it is espacially dangerous if findings occur in such file types.
 \section{Tooling}
-Since Fuzzing required lots of preconfiguration and setup, it is almost always executed with the help of different tools. Only in rare occations it would make sense to manually fuzz a system. This specifically includes old software that is not compatible with modern fuzzing tools. Otherwise all systems that offer interfaces and compute external input, are fuzzable with most modern tools. 
+Since fuzzing required lots of preconfiguration and setup, it is almost always executed with the help of different tools. Only in rare occations it would make sense to manually fuzz a system. This specifically includes old software that is not compatible with modern fuzzing tools. Otherwise all systems that offer interfaces and compute external input, are fuzzable with most modern tools. 
 
 Such fuzzing tools will mainly provide 3 things. Generate test cases as inputs for the system under test, built a connection channel to transfer those inputs to the target interface and monitor the system behaviour.
 
-There are dozens of commerial fuzzing engines and hundrets of self made implementations. Big tech companys often built their own fuzzers to test their it infrastructures. Googles `OSS-Fuzz` was able to find tousends of bugs in many different google applications. 
+There are dozens of commerial fuzzing engines and hundrets of self made implementations. Big tech companys often built their own fuzzers to test their it infrastructures. Googles `OSS-Fuzz` was able to find thousands of bugs in many different Google applications. 
 
-Among the most relevant fuzzing tool is the american fuzzing loop(afl).
-Afl is responsible for a majority of zero day vulnability findings and will be covered in the folowing example.
+Among the most relevant fuzzing tool is the american fuzzing loop (afl).
+Afl is responsible for a majority of zero day vulnabilities and will be covered in the folowing example.
 \subsection{Practical example}
-The american fuzzing loop is a powerfull open-source fuzzer that offers all of the covered methods and techniques. On top of that it employs genetic algorithms and feedback instrumentations to increase code coverage. In the following example we will fuzz the C programm Fuzzgoat. It has several deliberate memory corruption bugs that are easily found by afl. Bevore the  fuzzing process can start, we have to do some preconfigurations. 
+The american fuzzing loop is a powerfull open-source fuzzer that offers all of the covered methods and techniques. On top of that it employs genetic algorithms and feedback instrumentations to increase code coverage. In the following example we will fuzz the C programm fuzzgoat. It has several deliberate memory corruption bugs that are easily found by afl. Before the fuzzing process can start, we have to do some preconfigurations. 
 \begin{figure}[h]
  \caption{afl configuration}
  \begin{lstlisting}[style=code]
@@ -261,7 +264,7 @@ The american fuzzing loop is a powerfull open-source fuzzer that offers all of t
 \end{lstlisting}
 \end{figure}
 
-At first it is neccecarry to compile the the target binary with afl's built in compiler. This way the target is setup for feedback instrumentation and afl is able to read out code paths and general code coverage.
+At first it is necessary to compile the the target binary with afl's built in compiler. This way the target is setup for feedback instrumentations and afl is able to read out code paths and general code coverage.
 
 In line 1 we tell afl to use the compiler clang, to then compile the binary with it.
 Following we create a directory afl\_in. In line 4 we copy the binary output of an Unix utility to this directory. This is essentially the seed of which afl will create the test cases. To store results we create another directory afl\_out. In there afl will provide information about crashes and bugs. 
@@ -281,7 +284,7 @@ Depending on the tested application it can be neccecarry to run afl for several 
 
 
 \section{Conclusion}
-Fuzzing is a very convinient and efficent way of testing software. It can be remarkably effective in finding bugs in applications and is capable of testing huge programms and systems in a short time, with relativly low effort. While it requires less expertise then other testing techniques it is importand to have a well understanding on how to setup the fuzzer accordingly to the target system. It is crucial to choose the right method for generating test cases. Otherwise there is a risk in targeting the wrong interface or system. Hence a generally good knowlede of It infrastructures is required.
+Fuzzing is a very convinient and efficent way of testing software. It can be remarkably effective in finding bugs in applications and is capable of testing huge programms and systems in a short time, with relativly low effort. While it requires less expertise then other testing techniques it is importand to have a well understanding on how to setup the fuzzer accordingly to the target system. It is crucial to choose the right method for generating test cases. Otherwise there is a risk in targeting the wrong interface or system. Hence a generally good knowlede of It-infrastructures is required.
 
 Since modern applications keep growing in complexity and new fields like the internet of things increase the landscape of potentiely vulnerable targets, fuzzing will continuously gain in usage and relevants.
 \section{References}
