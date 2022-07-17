@@ -1,2 +1,2 @@
 # Fuzzing-methods
-Seminar paper for the uni-module Offensive Security
+Seminar paper for the uni-module Offensive Security [english]
